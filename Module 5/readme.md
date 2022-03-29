@@ -2,7 +2,7 @@
 
 <br/>
 
-![BlueGreen](media/lab10_bluegreen_icon.jpg)
+![BlueGreen](media/lab10_bluegreen_icon.jpeg)
 
 <br/>
 
