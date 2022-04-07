@@ -1,0 +1,39 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: apis
+  namespace: api
+spec:
+  host: api.example.com
+  upstreams:
+  - name: generator
+    service: generator
+    port: 80
+  - name: locations
+    service: locations
+    port: 80
+  - name: animals
+    service: animals
+    port: 80
+  - name: adjectives
+    service: adjectives
+    port: 80
+  - name: colors
+    service: colors
+    port: 80
+  routes:
+  - path: /api/v1
+    action:
+      pass: generator
+  - path: /api/v1/locations
+    action:
+      pass: locations
+  - path: /api/v1/animals
+    action:
+      pass: animals
+  - path: /api/v1/colors
+    action:
+      pass: colors
+  - path: /api/v1/adjectives
+    action:
+      pass: adjectives

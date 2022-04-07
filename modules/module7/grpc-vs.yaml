@@ -1,0 +1,21 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: grpc-vs
+  namespace: api
+spec:
+  host: grpc.example.com
+  tls:
+    secret: grpc-secret
+  upstreams:
+  - name: echo
+    service: echo2-grpc
+    port: 8081
+    type: grpc
+  routes:
+  - path: /
+    action:
+      pass: echo
+      #  - path: /api.Reverse
+      #    action:
+      #      pass: envoy

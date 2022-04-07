@@ -1,5 +1,6 @@
-# Module 2: 
+# Module 1: 
 
 
 -------------
-Navigate to  ([Main Menu](../README.md))
+
+Navigate to ([Module3](../module3/readme.md) | [Main Menu](../README.md))

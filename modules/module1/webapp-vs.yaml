@@ -1,0 +1,17 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: webapp
+  namespace: webapp
+spec:
+  host: webapp.example.com
+  tls:
+    secret: webapp-secret
+  upstreams:
+  - name: webapp
+    service: frontend
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: webapp
