@@ -10,7 +10,7 @@ Also from Google:
 
 > gRPC is based on the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses protocol buffers as the Interface Definition Language (IDL) for describing both the service interface and the structure of the payload messages.
 
-For our simple demo application, we have two application services, namely, "echo" and "reverse".  In gRPC, the application service is defined using a ".proto" file.  For example, .proto for the echo service is:
+For our simple demo application, we have two application services, namely, "echo" and "reverse".  In gRPC, the application service is defined using a ".proto" file.  For example, the .proto for the echo service is:
 
 ```json
 service Echo {
@@ -31,6 +31,10 @@ This service definition along with the its associated code, language-specific ru
 In this module we will be enable our Ingress Controller to proxy, route and load balance gRPC requests to our simple gRPC application.  
 
 A quick look at the architecture:  
+
+![Module 7 Architecture](./media/Agility%20Module%207%20-%20gRPC.jpeg)
+
+
 
 -------------
 
