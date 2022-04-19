@@ -1,6 +1,11 @@
-# Module 7: 
+# Module 7
 
-As companies begin to deploy more modern applications and where low latency is required, gRPC may be a good option.  gRPC is becoming a popular alternative to JSON RESTful API's in part because of a 7 to 10 times performance improvement over REST.  This is due in part to the use of HTTP2.  NGINX has gRPC proxy and load balancing capabilities built in.  
+As companies begin to deploy more modern applications and where low latency is required, gRPC may be a good option.  gRPC is becoming a popular alternative to JSON RESTful API's in part because of a 7 to 10 times performance improvement over REST.  This is due in part to the use of HTTP2.  NGINX has gRPC proxy and load balancing capabilities built in.  Moreover, we can enable our Ingress Controller to route and load balance gRPC traffic with the VirtualServer custom resource.  
+
+In this module you will learn:
+1. Basic gRPC concepts
+2. How our gRPC demonstration application works
+3. How to configure the NIC to proxy and load balance gRPC traffic
 
 More on gRPC from Google:
 
@@ -34,7 +39,14 @@ A quick look at the architecture:
 
 ![Module 7 Architecture](./media/Agility%20Module%207%20-%20gRPC.jpeg)
 
+The echo and reverse applications have been deployed in the api namespace with two pods for each.  Separate services have been created to expose those applications.  You will need to make those applications accessible from outside of the cluster by configuring the NIC.  
 
+## Step 1
+
+## Step 2
+
+
+## Step 3
 
 -------------
 
