@@ -15,19 +15,25 @@ Let's begin by taking a look at the overall architecture of the lab environment.
 
 ![Environment Overview](media/Agility%20UDF%20Environment.jpeg)
 
-As per the diagram, you will be working with a three node cluster with one control-plane node and two workers.  The NGINX Ingress Controller (NIC) is deployed into the nginx-ingress namespace.  The NIC deployment is exposed with a NodePort service to make it accessible from outside of the cluster.  There are two application namespaces:  a) API and b) Webapp.  The API namespace contains a number of deployments corresponding to the the API runtimes/endpoints that you will access throughout the lab modules.  The webapp namespace contains a single application called frontend.  It's purpose is to generate a browser application that uses the API's to create a sentence to display on the web page.    
+As per the diagram, you will be working with a three node cluster with one control-plane node and two workers.  The NGINX Ingress Controller (NIC) is deployed into the nginx-ingress namespace.  The NIC deployment is exposed with a NodePort service to make it accessible from outside of the cluster.  There are two application namespaces:  a) api and b) webapp.  The api namespace contains a number of deployments corresponding to the the API runtimes that you will access throughout the lab modules.  The webapp namespace contains a single application called frontend.  It's purpose is to generate a browser application that uses the API's to create a sentence to display on the web page.    
 
-The cluster has an external NGINX+ load balancer.  Its purpose is to load balance requests across all of the nodes of the cluster.  
+The cluster has an external NGINX+ load balancer.  Its purpose is to load balance client API and browser requests across all of the nodes of the cluster.  
 
-You will be working from a Windows Jumphost.  Access that environment now by navigating to the UDF lab environment, finding the Windows Jumphost component and selecting the RDP item in the Access menu.  
+In this lab you will be working from a Windows Jumphost.  Access that environment now by navigating to the UDF lab environment, finding the Windows Jumphost component and selecting the RDP item in the Access menu.  This will download a RDP file to your workstation.  
 
-==NOTE:  You will need an RDP client on the workstation you are running this lab from!==
+*NOTE:  You will need an RDP client on the workstation you are running this lab from!*
 
 ![Jumphost Access](media/win-jh-rdp-access.png)
 
-You can generate API requests from the PostMan application installed on the Windows Jumphost.  
 ## Step 2
 
+Once in the Windows Jumphost, you will have access to the applications you need to complete all of the modules.  Begin by launching the VSCode application either by clicking the desktop icon or clicking the VSCode icon in the taskbar.  
+![VSCode Icon](media/vscode-icon.png)
+
+From VSCode, you will have access to all of the manifests you will need to configure the NIC to operate as an API Gateway.  VSCode also provides you with a terminal to execute `kubectl` commands from.  
+
+You will generate API requests from the PostMan application, also installed on the Windows Jumphost.  Launch it by either clicking the shortcut icon on the desktop or by clicking the PostMan icon on the taskbar.  
+![PostMan Icon](media/postman-icon.png)
 
 ## Step 3
 -------------
