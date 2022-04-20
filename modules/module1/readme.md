@@ -59,6 +59,22 @@ kubectl get svc,po,deploy -n api
 
 Once again, compare the output of this command with the diagram in Step 1.  
 
+You may have noticed that unlike the diagram in Step 1, there is only a single NIC pod in the nginx-ingress namespace.  Let's change that by scaling the nginx-ingress deployment.  In your VSCode terminal, enter the following command:
+
+```bash
+kubectl scale deploy -n nginx-ingress nginx-ingress --replicas=3
+```
+Verify that the command worked by running the following command:
+
+```bash
+kubectl get po -n nginx-ingress
+```
+You should now see 3 pods listed in the output of this command.  
+
+*Note:  In an actual production deployment you would enable Horizontal Pod Autoscaling to automatically adjust the pod count (replicas) in the deployment based on the traffic load.  That exercise is beyond the scope of this lab.*  
+
+
+
 -------------
 
 Navigate to ([Module2](../module2/readme.md) | [Main Menu](../README.md))
