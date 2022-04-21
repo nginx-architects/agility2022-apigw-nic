@@ -1,5 +1,7 @@
 # Module 7
 
+## gRPC Routing and Load Balancing
+
 As companies begin to deploy more modern applications and where low latency is required, gRPC may be a good option.  gRPC is becoming a popular alternative to JSON RESTful API's in part because of a 7 to 10 times performance improvement over REST.  This is due in part to the use of HTTP2.  NGINX has gRPC proxy and load balancing capabilities built in.  Moreover, we can enable our Ingress Controller to route and load balance gRPC traffic with the VirtualServer custom resource.  
 
 In this module you will learn:

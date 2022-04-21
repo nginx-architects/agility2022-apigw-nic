@@ -22,7 +22,7 @@ spec:
     service: colors
     port: 80
   routes:
-  - path: /api/v1
+  - path: =/api/v1
     action:
       pass: generator
   - path: /api/v1/locations

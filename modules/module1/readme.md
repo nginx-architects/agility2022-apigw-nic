@@ -1,5 +1,7 @@
 # Module 1
 
+## Lab Environment Overview
+
 The purpose of the first module is to give you an overview of the lab environment.  
 
 By the end of this module you will:
@@ -72,6 +74,18 @@ kubectl get po -n nginx-ingress
 You should now see 3 pods listed in the output of this command.  
 
 *Note:  In an actual production deployment you would enable Horizontal Pod Autoscaling to automatically adjust the pod count (replicas) in the deployment based on the traffic load.  That exercise is beyond the scope of this lab.*  
+
+## Step 4
+
+Releasing the API's.
+
+Switch to the Postman application in the Jumphost.  In the "Collection on the left, select "APIGW With NIC". Navigate to module 1 and select "Colors API Request". 
+
+![Postman Collections](media/postman-collections.png)
+
+Note that we are sending a GET request to the URL api.example.com/v1/colors.  Send this request by clicking the "Send" button to the right.  
+
+![Get /colors](media/postman-send-get.png)
 
 
 
