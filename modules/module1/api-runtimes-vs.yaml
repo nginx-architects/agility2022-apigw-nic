@@ -27,13 +27,21 @@ spec:
       pass: generator
   - path: /api/locations
     action:
-      pass: locations
+      proxy: 
+        upstream: locations
+        rewritePath: /colors
   - path: /api/animals
     action:
-      pass: animals
+      proxy: 
+        upstream: animals
+        rewritePath: /animals
   - path: /api/colors
     action:
-      pass: colors
+      proxy: 
+        upstream: colors
+        rewritePath: /colors
   - path: /api/adjectives
     action:
-      pass: adjectives
+      proxy: 
+        upstream: adjectives
+        rewritePath: /adjectives
