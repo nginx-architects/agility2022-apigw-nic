@@ -1,7 +1,7 @@
 apiVersion: k8s.nginx.org/v1
-kind: VirtualServer
+kind: VirtualServerRoute
 metadata:
-  name: apis
+  name: locations
   namespace: apiv2
 spec:
   host: api.example.com
@@ -9,25 +9,7 @@ spec:
   - name: locations
     service: locations
     port: 80
-  - name: animals
-    service: animals
-    port: 80
-  - name: adjectives
-    service: adjectives
-    port: 80
-  - name: colors
-    service: colors
-    port: 80
-  routes:
+  subroutes:
   - path: /api/locations/v2
     action:
       pass: locations
-  - path: /api/animals/v2
-    action:
-      pass: animals
-  - path: /api/colors/v2
-    action:
-      pass: colors
-  - path: /api/adjectives/v2
-    action:
-      pass: adjectives
