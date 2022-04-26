@@ -15,7 +15,12 @@ spec:
   subroutes:
   - path: /api/locations/v2
     action:
-      pass: locations2
+      proxy:
+        rewritePath: /locations
+        upstream: locations2
   - path: /api/locations/
     action:
-      pass: locations
+      proxy:
+        upstream: locations
+        rewritePath: /locations
+
