@@ -26,11 +26,7 @@ spec:
     action:
       pass: generator
   - path: /api/locations
-    action:
-      proxy: 
-        upstream: locations
-        rewritePath: /colors
-    route: apiv2/api/locations
+    route: apiv2/locations
   - path: /api/animals
     action:
       proxy: 

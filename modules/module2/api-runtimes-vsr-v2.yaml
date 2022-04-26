@@ -9,7 +9,13 @@ spec:
   - name: locations
     service: locations
     port: 80
+  - name: locations2
+    service: locations-v2
+    port: 80
   subroutes:
   - path: /api/locations/v2
+    action:
+      pass: locations2
+  - path: /api/locations/
     action:
       pass: locations
