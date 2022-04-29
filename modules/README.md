@@ -6,6 +6,8 @@ In the Lab you will learn about the following
 
 ## Lab Outline:
 
-#### Module 1: [{INSERT MODULE 1 TITLE}](module1/readme.md) 
+#### Module 1: [Lab Environment Overview](module1/readme.md) 
 
-#### Module 2: [{INSERT MODULE 2 TITLE}](module2/readme.md) 
+#### Module 2: [Layer 7 Request Routing and API Versioning](module2/readme.md) 
+
+#### Module 3: [Restricting access by applying Rate Limits on API](module3/readme.md)
