@@ -1,0 +1,42 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: apiv1
+  namespace: api
+spec:
+  host: api.example.com
+  upstreams:
+  - name: locations
+    service: locations
+    port: 80
+  - name: animals
+    service: animals
+    port: 80
+  - name: adjectives
+    service: adjectives
+    port: 80
+  - name: colors
+    service: colors
+    port: 80
+  subroutes:
+  - path: /api/v1/locations
+    action:
+      proxy:
+        rewritePath: /locations
+        upstream: locations
+  - path: /api/v1/animals
+    action:
+      proxy:
+        upstream: animals
+        rewritePath: /animals
+  - path: /api/v1/colors
+    action:
+      proxy:
+        upstream: colors
+        rewritePath: /colors
+  - path: /api/v1/adjectives
+    action:
+      proxy:
+        upstream: adjectives
+        rewritePath: /adjectives
+
