@@ -2,7 +2,7 @@ apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
   name: apis
-  namespace: api
+  namespace: apiv2
 spec:
   host: api.example.com
   upstreams:
@@ -27,17 +27,17 @@ spec:
       pass: generator
   - path: /api/locations
     route: apiv2/locations
-  - path: /api/animals
+  - path: /api/v2/animals
     action:
       proxy: 
         upstream: animals
         rewritePath: /animals
-  - path: /api/colors
+  - path: /api/v2/colors
     action:
       proxy: 
         upstream: colors
         rewritePath: /colors
-  - path: /api/adjectives
+  - path: /api/v2/adjectives
     action:
       proxy: 
         upstream: adjectives
