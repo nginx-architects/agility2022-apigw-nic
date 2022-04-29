@@ -11,7 +11,8 @@ spec:
     port: 80
   routes:
   - path: =/api/v1
-    pass: generator
+    action:
+      pass: generator
   - path: /api/v1
     route: api/api
   - path: /api/v2
