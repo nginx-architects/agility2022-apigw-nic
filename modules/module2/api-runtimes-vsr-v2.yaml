@@ -1,0 +1,26 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: locations
+  namespace: apiv2
+spec:
+  host: api.example.com
+  upstreams:
+  - name: locations
+    service: locations
+    port: 80
+  - name: locations2
+    service: locations-v2
+    port: 80
+  subroutes:
+  - path: /api/locations/v2
+    action:
+      proxy:
+        rewritePath: /locations
+        upstream: locations2
+  - path: /api/locations/
+    action:
+      proxy:
+        upstream: locations
+        rewritePath: /locations
+
