@@ -2,17 +2,17 @@
 
 ## Restricting access by applying Rate Limits on API
 
-Once the API's start becoming feature rich, the next aspect that we need to put our attention is how to secure these API's. The most comman way of restricting your API's from getting a flood of request is to enable rate limiting. With NIC you can enable rate limiting by creating a custom policy and then applying the policy to the custom Virtual Server resource that we discussed in previous section.   
+Once the APIs start becoming feature rich, the next aspect that you need to focus on how to secure these APIs. The most comman way of restricting your APIs from getting a flood of request is to enable rate limiting. With NGINX Plus Ingress Controller(NIC) you can enable rate limiting by creating a custom policy and then applying the policy to the custom Virtual Server resource that we discussed in previous section.   
 
 In this module you will learn:
 1. Creating a custom rate limiting policy. 
-2. How to modify the VS to enable rate limiting on your set of APIs
+2. How to modify the VirtualServer object to enable rate limiting on your set of APIs
    
 ## 1. Creating a custom rate limiting policy
 
 In this step you will look into a custom policy that would enable rate limiting for the colors API.
 
-Inspect the `module3/rate-limit.yaml` manifest. This policy would limit all subsequent requests coming from a single IP address once a rate of 1 request per second is exceeded. 
+Inspect the `module3/rate-limit.yaml` file. This policy would limit all subsequent requests coming from a single IP address once a rate of 1 request per second is exceeded. 
 
 ![rate limit policy](media/module3_rate-limit-policy.png)
 
@@ -33,20 +33,20 @@ Run the following command to view all the custom policies within a particular na
 kubectl get policy -n api
 ```
 
-## 2. How to modify the VS to enable rate limiting on your set of APIs
+## 2. How to modify the VirtualServer object to enable rate limiting on your set of APIs
 
-Once the rate limit policy has been created the next part would be to enable this policy to APIs by modifying the VirtualServer manifest. You can perform this task two ways.
+Once the rate limit policy has been created the next part would be to enable this policy to APIs by modifying the VirtualServer object. You can perform this task two ways.
 
 1. Apply policy to all routes. (spec policies)
 2. Apply policy to a specific route. (route policies)
 
 As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the [References](#references) section.
 
-Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` manifest. We modified the API VirtualServer manifest from module1 and applied the rate limit policy to restrict the usage of Colors API.(See highlighted section in the screenshot below)
+Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the rate limit policy to restrict the usage of Colors API. (See highlighted section in the screenshot below)
 
 ![API VS ratelimit](media/module3_api_vs_ratelimit.png)
 
-Run the following command to update the existing `apis` VirtualServer with the new changes
+Run the following command to update the existing `apis` VirtualServer object with the new changes
 ```bash
     kubectl apply -f module3/api-runtimes-vs-with-ratelimit.yaml
 ```
@@ -54,25 +54,25 @@ Run the following command to update the existing `apis` VirtualServer with the n
 
 Now lets test the APIs and see if the rate limit is restricting traffic based on the policy that you applied.
 
-As part of testing you would run a series of  curl commands that are run within a for loop.
+As part of testing you would run a series of curl commands that are placed within a for loop and iterated 20 times.
 
 Copy the below command and paste in terminal:
 ```bash
-for i in {1..20}; do curl -Is http://api.example.com/api/v1/locations | grep "^HTTP\/"; done
+for i in {1..20}; do curl -Is http://api.example.com/api/v1/locations | grep "HTTP"; done
 ```
 ![for loop for locations](media/module3_test_locations.png)
 
 Also run below command:
 ```bash
-for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "^HTTP\/"; done
+for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "HTTP"; done
 ```
 ![for loop for colors](media/module3_test_colors.png)
 
 What do you notice in the output of the two commands? 
 
-For the first loop you get all `200` response status codes whereas for the second loop you get a mix of `200` and `503` response status codes. This is because you are calling the colors API in the second loop for which you have applied the rate limit policy.
+For the first command you get all `200` response status codes whereas for the second command you get a mix of `200` and `503` response status codes. This is because you are calling the colors API in the second command for which you have applied the rate limit policy.
 
-`503` response status code is the default reject code within rate limit policy.
+**Note:** `503` response status code is the default reject code within rate limit policy.
 
 Next you would change the default reject code to `429` which is more specific reject code than the default one.
 
@@ -80,7 +80,7 @@ Open `module3/rate-limit.yaml` file in vscode and then add the `rejectCode` fiel
 
 ![rate limit with reject code yaml](media/module3_add_rejectcode.png)
 
-Once the `module3/rate-limit.yaml` file has been updated, you need to run below command to apply it to your cluster
+Run the following command to update the existing `rate-limit-policy` policy object with the new changes
 ```bash
 kubectl apply -f module3/rate-limit.yaml
 ```
@@ -88,8 +88,9 @@ kubectl apply -f module3/rate-limit.yaml
 
 Once the policy is configured, run the below command to see the change.
 ```bash
-for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "^HTTP\/"; done
+for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "HTTP"; done
 ```
+![for loop for colors](media/module3_test_colors.png)
 
 You will notice that the output now is a mix of `200` and `429` response status code. You successfully updated the rate-limit policy to return `429` reject code instead of the default generic `503` reject code.
 
