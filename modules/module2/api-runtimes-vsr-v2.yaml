@@ -33,7 +33,7 @@ spec:
     action:
       proxy:
         rewritePath: /animals
-        upstream: animals-v2
+        upstream: animals2
   - path: /api/v2/adjectives
     action:
       proxy:

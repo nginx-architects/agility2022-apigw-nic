@@ -14,6 +14,6 @@ spec:
     action:
       pass: generator
   - path: /api/v1
-    route: api/api
+    route: api/apiv1
   - path: /api/v2
-    route: apiv2/api
+    route: apiv2/apiv2
