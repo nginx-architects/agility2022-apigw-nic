@@ -9,7 +9,7 @@ spec:
     template:
       name: POLICY_TEMPLATE_NGINX_BASE
     open-api-files:
-    - link: file:///etc/nginx/ergast_f1_oas.yml
+    - link: https://raw.githubusercontent.com/alessfg/nginx-api-gateway-demo/main/nginx_api_gateway_config/step_8/ergast_f1_oas.yml
     blocking-settings:
       violations:
       - block: true
@@ -69,4 +69,4 @@ spec:
     xml-profiles:
     - name: Default
       defenseAttributes:
-        maximumNameLength: 1024
+        maximumNameLength: "1024"

@@ -5,7 +5,7 @@ metadata:
   namespace: nap
 spec:
   host: webapp.example.com
-  policy:
+  policies:
   - name: waf-policy
   tls:
     secret: webapp-secret
