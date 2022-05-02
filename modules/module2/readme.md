@@ -15,7 +15,9 @@ In the previous module we enabled traffic routing from outside the cluster to th
 
 Background on VirtualServerRoute (VSR).  
 
-In Module 1 we used the VirtualServer (VS) resource to configure the NGINX load balancer in the Ingress pods to proxy requests to API runtimes.  The VS includes the vs.spec.upstreams and vs.spec.routes objects.  The routes contained a path and an action.  The VSR resource lets you further define vs.spec.routes.  This is done by replacing vs.spec.routes.action with vs.spec.routes.route.  The "route" string references a VSR object along with the namespace it is in.  Here is what it looks like:
+In Module 1 we used the VirtualServer (VS) resource to configure the NGINX load balancer in the Ingress pods to proxy requests to API runtimes.  The VS includes the `vs.spec.upstreams` and `vs.spec.routes` objects.  The routes contained a path and an action.  The VSR resource lets you further define `vs.spec.routes`.  This is done by replacing `vs.spec.routes.action` with `vs.spec.routes.route`.  The "route" string references a VSR object along with the namespace it is in.  
+
+Here is what it looks like in the VS and VSR manifests:
 
 ![VSR Reference](media/vs-to-vsr.png)
 
@@ -23,24 +25,30 @@ Where the format of vs.spec.routes.route is namespace/vsr-name
 
 One of the main reasons for doing this is that the VSR can exists in a separate namespace than the VS that references it.  This means that, for our example lab environment, the same team that manages the apiv2 API runtimes can also manage the logic that routes traffic to it in their own VSR configuration.  And RBAC can be applied so that the apiv2 team can't modify the routing logic of api v1.
 
-The VSR looks very much like the VS that we saw in Module 1.  One difference you will notice is that where we had vs.spec.route, we now have vsr.spec.subroute.  Note that there are two requirements in creating the VSR.  
+The VSR looks very much like the VS that we saw in Module 1.  One difference you will notice is that where we had `vs.spec.route`, we now have `vsr.spec.subroute`.  
 
-1. Both the VS and VSR must have the same spec.host values and 
-2. The vsr.subroute.path must be an extension of the vs.spec.routes.path.  As an example, in our case we have:
+Note that there are two requirements in creating the VSR.  
 
+1. The VSR must have the same `spec.host` value as the VS 
+2. The `vsr.subroute.path` must be an extension of the `vs.spec.routes.path`.  As an example, in our case we have:
+
+```yaml
 vs.spec.routes.path = /api/v1
+```
 
 and
 
+```yaml
 vsr.subroute.path = /api/v1/locations
+```
 
-This is what it looks like in the manifest files: 
+This is what it looks like in the VS and VSR manifest files:
 
 ![VSR Reference](media/vs-2-vsr-2.png)
 
 ## Step 2
 
-In this step we will now apply a new VirtualServer manifest and create two VirtualServerRoute resources with new manifests, one for each version of our API.  
+In this step we will apply a new VirtualServer manifest and create two VirtualServerRoute resources with new manifests, one for each version of our API.  
 
 Begin by applying the new VS manifest with:
 
@@ -48,10 +56,12 @@ Begin by applying the new VS manifest with:
 kubectl apply -f module2/api-runtimes-vs-v2.yaml
 ```
 
-Note that this will overwrite the VS configuration you created in Module 1.  If you list this new version of the VS you will note that it is in a warning state:
+Note that this will overwrite the VS configuration you created in Module 1.  
+
+If you list this new version of the VS you will note that it is in a "Warning" state:
 
 ```bash
-kubectl get vs -n api
+kubectl get vs -n api apis
 ```
 
 This is because it is referencing VSR's that don't exist yet.  Let's fix that by creating the VSR's with:
