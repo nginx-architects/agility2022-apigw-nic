@@ -21,7 +21,7 @@ Here is what it looks like in the VS and VSR manifests:
 
 ![VSR Reference](media/vs-to-vsr.png)
 
-Where the format of vs.spec.routes.route is namespace/vsr-name
+Where the format of `vs.spec.routes.route` is `namespace/vsr-name`
 
 One of the main reasons for doing this is that the VSR can exists in a separate namespace than the VS that references it.  This means that, for our example lab environment, the same team that manages the apiv2 API runtimes can also manage the logic that routes traffic to it in their own VSR configuration.  And RBAC can be applied so that the apiv2 team can't modify the routing logic of api v1.
 
@@ -67,11 +67,11 @@ kubectl get vs -n api apis
 This is because it is referencing VSR's that don't exist yet.  Let's fix that by creating the VSR's with:
 
 ```bash
-kubectl apply -f module2/api-runtime-vsr-v1.yaml
+kubectl apply -f module2/api-runtimes-vsr-v1.yaml
 ```
 
 ```bash
-kubectl apply -f module2/api-runtime-vsr-v2.yaml
+kubectl apply -f module2/api-runtimes-vsr-v2.yaml
 ```
 
 Here is a look at the (truncated) manifest for the VSR you just created:
@@ -79,6 +79,14 @@ Here is a look at the (truncated) manifest for the VSR you just created:
 ![VSR Reference](media/vsr-v2.png)
 
 Notice the namespace, apiv2, and path for the v2 API's.  
+
+Once again, get a listing of the VS in the api namespace to check its state:
+
+```bash
+kubectl get vs -n api apis
+```
+
+You should now see it in the "Valid" state.
 ## Step 3
 
 Test new configuration.  
