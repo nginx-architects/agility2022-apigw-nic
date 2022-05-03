@@ -86,7 +86,7 @@ Switch to the Postman application in the Jumphost.  In the "Collection on the le
 
 Note that we are sending a GET request to the URL `api.example.com/api/v1/colors`.  Send this request by clicking the "Send" button to the right.  
 
-![Get /colors](media/postman-send-get.png)
+![Get /colors](media/postman-get-colors.png)
 
 You should see a 404 response.  The reason for this is that although the api runtimes have been exposed with a service, as shown in Step 3, those are just ClusterIP services that enable internal cluster traffic.  To create the link between the api services and the Postman client outside the cluster you need to configure the NIC to handle that traffic.  Let's do that now.
 
@@ -96,23 +96,26 @@ Switch to the VSCode application in your Jumphost.  In the upper left, navigate 
 
 This is the manifest you will use to configure the NIC to support requests for http://api.example.com.  This manifest creates a VirtualServer resource.  VirtualServer is a "Custom Resource" (CRD) developed by NGINX.  It is one of a number of CRD's that have been developed by NGINX as an alternative to the standard Ingress Resource.  The CRD's provide easier access to the full functionality of the underlying NGINX+ load balancer.  Can you still use the standard Ingress Resource with the NGINX Inc. Ingress Controller?  Yes, in fact, you can deploy both simultaneously, a helpful capability for migrating from Ingress to CRD's.  
 
-Inspect the manifest to get comfortable with the structure of the VirtualServer (VS).  You can read more about the VS in the official NGINX documentation here:  https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/.  
+Inspect the manifest to get comfortable with the structure of the VirtualServer (VS).  You can read more about the VS by following the link in the References section.  
 
 Apply the manifest with the following command:
 
 ```bash
-kubectl apply -f modules/module1/api-runtimes-vs.yaml
+kubectl apply -f module1/api-runtimes-vs.yaml
 ```
 
 Verify that the VS was successfully applied with the following command:
 
 ```bash
-kubectl get vs -n api 
+kubectl get vs -n api apis
 ```
 
 You should see a state of "Valid" in the listing of the "apis" VS.
 
-Now return to Postman to resend the API request to the colors endpoint.  You should now see a 200 response with a JSON response body containing a list colors and associated ID's.  
+Now return to Postman to resend the API request to the colors endpoint.  You should now see a 200 response with a JSON response body containing a list of colors and associated ID's.  
+
+## References:
+[VirtualService Resource Documentation](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
 
 -------------
 
