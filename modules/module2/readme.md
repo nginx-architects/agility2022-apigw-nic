@@ -94,7 +94,25 @@ kubectl get vs -n api apis
 You should now see it in the "Valid" state.
 ## Step 3
 
-Test new configuration.  
+Test the new configuration. 
+
+Now that you have redeployed both the VS and VSR resources, return to Postman to test access to both the v1 and v2 API endpoints.
+
+Navigate to the collection for Module 2.  
+
+![Module 2 API Requests](media/Mod2-api-requests.png)
+
+Run the request for "Colors API Endpoint v1".  You should see a 200 response and the response body should contain a listing of colors and associated ID's just like in Module 1.  
+
+![apiv1 Response](media/apiv1-response.png)
+
+Great, we didn't lose any functionality with our new configuration using VS and VSR.  
+
+Now run the request for the v2 colors API.  
+
+![Module 2 API v2 Request](media/colors-apiv2-request.png)
+
+You should see a 200 response and a longer list of colors and their ID's in the response body.  
 
 -------------
 
