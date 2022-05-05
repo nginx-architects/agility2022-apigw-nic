@@ -92,6 +92,17 @@ kubectl get vs -n api apis
 ![VS Valid](media/apis-vs-valid.png)
 
 You should now see it in the "Valid" state.
+
+Let's also take a look at our VSR resources with this command:
+
+```bash
+kubectl get vsr -A  # list all VSR's in all namespaces
+```
+
+Note that we have two VSR's, each in their own namespace.
+
+![VSR Listing](media/vsr-listing.png)
+
 ## Step 3
 
 Test the new configuration. 
