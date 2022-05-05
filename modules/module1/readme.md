@@ -12,7 +12,7 @@ By the end of this module you will:
 4. Understand how to verify your work by sending traffic to the Kubernetes cluster
 
 
-## Step 1
+## 1. Lab Environment Architecture
 
 Let's begin by taking a look at the overall architecture of the lab environment.  Please review the following diagram:
 
@@ -24,7 +24,7 @@ There are two application namespaces:  a) api and b) webapp.  The api namespace 
 
 The cluster has an external NGINX+ load balancer.  Its purpose is to load balance client API and browser requests across all of the nodes of the cluster.  
 
-## Step 2
+## 2. Jumphost Orientation
 
 In this lab you will be working from a Windows Jumphost.  If you are reading this then you have successfully logged into the Jumphost.  
 
@@ -42,7 +42,7 @@ The second tool you will need is Postman.  Postman is a graphical tool for sendi
 
 ![PostMan Icon](media/postman-icon.png)
 
-## Step 3
+## 3. Getting Started at the Command Line
 
 In this step you will explore the environment through the command line in the VSCode terminal.
 
@@ -76,9 +76,7 @@ You should now see 3 pods listed in the output of this command.
 
 *Note:  In an actual production deployment you would enable Horizontal Pod Autoscaling to automatically adjust the pod count (replicas) in the deployment based on the traffic load.  That exercise is beyond the scope of this lab.*  
 
-## Step 4
-
-Releasing the API's.
+## 4. Releasing the API's
 
 Switch to the Postman application in the Jumphost.  In the "Collection on the left, select "APIGW With NIC". Navigate to module 1 and select "Colors API Request". 
 

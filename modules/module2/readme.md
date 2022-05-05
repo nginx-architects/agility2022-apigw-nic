@@ -10,9 +10,7 @@ In this module you will learn:
 
 In the previous module we enabled traffic routing from outside the cluster to the API runtimes inside the cluster running in the api namespace.  In this module we will enable access to new versions of the API endpoints, v2, running in the apiv2 namespace.  Separating development efforts into dedicated namespaces is a good way to prevent accidental modifications to existing code.  It can also be used to enable RBAC or even Network Policy constraints.  
 
-## Step 1
-
-Background on VirtualServerRoute (VSR).  
+## 1. Background on VirtualServerRoute (VSR)  
 
 In Module 1 we used the VirtualServer (VS) resource to configure the NGINX load balancer in the Ingress pods to proxy requests to API runtimes.  The VS includes the `vs.spec.upstreams` and `vs.spec.routes` objects.  The routes contained a `path` and an `action`.  The VSR resource lets you further define `vs.spec.routes`.  This is done by replacing `vs.spec.routes.action` with `vs.spec.routes.route`.  The "route" string references a VSR object along with the namespace it is in.  
 
@@ -45,7 +43,7 @@ This is what it looks like in the VS and VSR manifest files:
 
 ![VSR Reference](media/vs-2-vsr-2.png)
 
-## Step 2
+## 2. VirtualServerRoute (VSR)
 
 In this step we will apply a new VirtualServer manifest and create two VirtualServerRoute resources with new manifests, one for each version of our API.  
 
@@ -103,9 +101,7 @@ Note that we have two VSR's, each in their own namespace.
 
 ![VSR Listing](media/vsr-listing.png)
 
-## Step 3
-
-Test the new configuration. 
+## 3. Testing the New Configuration
 
 Now that you have redeployed both the VS and VSR resources, return to Postman to test access to both the v1 and v2 API endpoints.
 
