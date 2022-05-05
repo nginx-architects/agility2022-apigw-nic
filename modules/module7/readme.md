@@ -2,12 +2,18 @@
 
 ## gRPC Routing and Load Balancing
 
-As companies begin to deploy more modern applications and where low latency is required, gRPC may be a good option.  gRPC is becoming a popular alternative to JSON RESTful API's in part because of a 7 to 10 times performance improvement over REST.  This is due in part to the use of HTTP2.  NGINX has gRPC proxy and load balancing capabilities built in.  Moreover, we can enable our Ingress Controller to route and load balance gRPC traffic with the VirtualServer custom resource.  
+One fairly recent trend in API technology is the move to gRPC.   gRPC is becoming a popular alternative to JSON RESTful API's in part because of a 7 to 10 times performance improvement over REST.  This is due in part to the use of HTTP2.  NGINX has gRPC proxy and load balancing capabilities built in.  Moreover, we can enable our Ingress Controller to route and load balance gRPC traffic with the VirtualServer custom resource.  
 
 In this module you will learn:
 1. Basic gRPC concepts
 2. How our gRPC demonstration application works
 3. How to configure the NIC to proxy and load balance gRPC traffic
+
+## Step 1
+
+A quick introduction to basic gRPC concepts.
+
+gRPC is a modern, open source, high-performance Remote Procedure Call framework. It can be run on any environment and can be used to communicate across backend, frontend, and mobile devices.
 
 More on gRPC from Google:
 
@@ -17,7 +23,11 @@ Also from Google:
 
 > gRPC is based on the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses protocol buffers as the Interface Definition Language (IDL) for describing both the service interface and the structure of the payload messages.
 
-For our simple demo application, we have two application services, namely, "echo" and "reverse".  In gRPC, the application service is defined using a ".proto" file.  For example, the .proto for the echo service is:
+## Step 2
+
+Intro to our gRPC lab application.
+
+For our simple lab application, we have two application services, namely, "echo" and "reverse".  In gRPC, the application service is defined using a ".proto" file.  For example, the .proto for the echo service is:
 
 ```json
 service Echo {
@@ -43,12 +53,15 @@ A quick look at the architecture:
 
 The echo and reverse applications have been deployed in the api namespace with two pods for each.  Separate services have been created to expose those applications.  You will need to make those applications accessible from outside of the cluster by configuring the NIC.  
 
-## Step 1
-
-## Step 2
-
-
 ## Step 3
+
+Configure the NIC to proxy gRPC requests to the echo and reverse application services.
+
+Begin by inspecting the following VirtualServer (VS) manifest.  
+
+![gRPC VS Manifest]
+
+Since gRPC runs over HTTP2 TLS is required.  
 
 -------------
 

@@ -12,7 +12,14 @@ spec:
     service: echo2-grpc
     port: 8081
     type: grpc
+  - name: reverse
+    service: reverse
+    port: 8081
+    type: grpc
   routes:
+  - path: /
+    action:
+      pass: echo
   - path: /
     action:
       pass: echo
