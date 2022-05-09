@@ -9,9 +9,7 @@ In this module you will learn:
 2. How our gRPC demonstration application works
 3. How to configure the NIC to proxy and load balance gRPC traffic
 
-## Step 1
-
-A quick introduction to basic gRPC concepts.
+## 1. A Short Introduction to gRPC Concepts
 
 gRPC is a modern, open source, high-performance Remote Procedure Call framework. It can be run on any environment and can be used to communicate across backend, frontend, and mobile devices.
 
@@ -23,13 +21,17 @@ Also from Google:
 
 > gRPC is based on the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses protocol buffers as the Interface Definition Language (IDL) for describing both the service interface and the structure of the payload messages.
 
-## Step 2
-
-Intro to our gRPC lab application.
+## 2. Intro to Our gRPC Lab Application
 
 For our simple lab application, we have two application services, namely, "echo" and "reverse".  In gRPC, the application service is defined using a ".proto" file.  For example, the .proto for the echo service is:
 
 ```json
+syntax = "proto3";
+
+option go_package = "github.com/googlecloudplatform/grpc-gke-nlb-tutorial/echo-grpc/api";
+
+package api;
+
 service Echo {
   rpc Echo (EchoRequest) returns (EchoResponse) {}
 }
@@ -53,9 +55,7 @@ A quick look at the architecture:
 
 The echo and reverse applications have been deployed in the api namespace with two pods for each.  Separate services have been created to expose those applications.  You will need to make those applications accessible from outside of the cluster by configuring the NIC.  
 
-## Step 3
-
-Configure the NIC to proxy gRPC requests to the echo and reverse application services.
+## 3. Configure the NIC to proxy gRPC Requests
 
 Begin by inspecting the following VirtualServer (VS) manifest.  
 
