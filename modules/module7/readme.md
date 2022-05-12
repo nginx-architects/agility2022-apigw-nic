@@ -72,6 +72,12 @@ Begin by creating the TLS secret in the api namespace with the following command
 kubectl apply -f grpc-secret.yaml -n api
 ```
 
+Next, enable HTTP2 on the NIC by applying a ConfigMap with the following command:
+
+```bash
+kubectl apply -f module7/nginx-config.yaml
+```
+
 Now apply the manifest to create the VS on the NIC with the following command:
 
 ```bash
