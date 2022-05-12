@@ -55,7 +55,7 @@ A quick look at the architecture:
 
 The echo and reverse applications have been deployed in the api namespace with two pods for each.  Separate services have been created to expose those applications.  You will need to make those applications accessible from outside of the cluster by configuring the NIC.  
 
-## 3. Configure the NIC to proxy gRPC Requests and Test
+## 3. Configure the NIC to proxy and Loadbalance gRPC Requests and Test
 
 Begin by inspecting the following VirtualServer (VS) manifest.  
 
