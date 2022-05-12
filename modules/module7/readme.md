@@ -2,9 +2,10 @@
 
 ## gRPC Routing and Load Balancing
 
-One fairly recent trend in API technology is the move to gRPC.   gRPC is becoming a popular alternative to JSON RESTful API's in part because of a 7 to 10 times performance improvement over REST.  This is due in part to the use of HTTP2.  NGINX has gRPC proxy and load balancing capabilities built in.  Moreover, we can enable our Ingress Controller to route and load balance gRPC traffic with the VirtualServer custom resource.  
+One fairly recent trend in web API technology is the move to gRPC.   gRPC is becoming a popular alternative to JSON RESTful API's in part because of a 7 to 10 times performance improvement over REST.  This is due in part to the use of HTTP2.  NGINX has gRPC proxy and load balancing capabilities built in.  Moreover, we can enable our Ingress Controller to route and load balance gRPC traffic with the VirtualServer custom resource.  
 
 In this module you will learn:
+
 1. Basic gRPC concepts
 2. How our gRPC demonstration application works
 3. How to configure the NIC to proxy and load balance gRPC traffic
@@ -47,7 +48,7 @@ message EchoResponse {
 
 This service definition along with the its associated code, language-specific runtime libraries and serialization format create what is known as the "protocol buffer".  
 
-In this module we will be enable our Ingress Controller to proxy, route and load balance gRPC requests to our simple gRPC application.  
+In this module we will be enable our Ingress Controller to proxy, route and load balance gRPC requests to our simple gRPC applications.  
 
 A quick look at the architecture:  
 
@@ -69,7 +70,7 @@ Two items to notice:
 Begin by creating the TLS secret in the api namespace with the following command:
 
 ```bash
-kubectl apply -f grpc-secret.yaml -n api
+kubectl apply -f module7/grpc-secret.yaml -n api
 ```
 
 Next, enable HTTP2 on the NIC by applying a ConfigMap with the following command:
@@ -102,14 +103,13 @@ You'll notice that the "Message" field is populated.  This is content that will 
 
 ![Echo Request](media/echo-request.png)
 
-You should see the same message returned in the "Response" area of the Postman window.  This is the function of this method, i.e. it returns or echos the content that was sent to it.  In a similar fashion, the Reverse method will return the message sent but with the content reversed. 
+You should see the same message returned in the "Response" area of the Postman window.  This is the function of this method, i.e. it returns or echos the content that was sent to it.  In a similar fashion, the Reverse method will return the message sent but with the content reversed.
 
 ![Echo Response](media/echo-response.png)
 
 The next step is to verify load balancing.  Using either the Echo or Reverse gRPC application, click the "Invoke" button repeatedly and check the "hostname" value in the response headers after each request.  You should see the hostname value changing, reflecting the two pods corresponding to the application you are testing.  
 
 ![Loadbalance Testing](media/hostname-response.png)
-
 
 -------------
 
