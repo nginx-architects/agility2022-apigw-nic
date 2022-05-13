@@ -18,7 +18,18 @@ Let's begin by taking a look at the overall architecture of the lab environment.
 
 ![Environment Overview](media/Agility-UDF-Environment.png)
 
-As per the diagram, you will be working with a three node cluster consisting of one control-plane node and two workers.  The NGINX Ingress Controller (NIC) is deployed into the nginx-ingress namespace.  The NIC deployment is exposed with a NodePort service to make it accessible from outside of the cluster.  
+As per the diagram, you will be working with a three node cluster consisting of one control-plane node and two workers.  
+
+The NGINX Ingress Controller (NIC) is deployed into the nginx-ingress namespace.  A couple of things to note in the deployment spec:  
+
+1. spec.template.spec.containers.image references the pre-built private container registry that you can use in both a Trial of the NIC or as a paying subscriber.  You can also build your own container if needed.  
+![Deployment Image](media/deploy-image.png)
+
+2. spec.template.spec.containers.args contain a number of optional command line arguments that can be used to enable features or control other properties of the NIC.  
+![Command Line Args](media/deploy-cmd-args.png)
+
+
+The NIC deployment is exposed with a NodePort service to make it accessible from outside of the cluster.  
 
 There are two application namespaces:  a) api and b) webapp.  The api namespace contains a number of deployments corresponding to the the API runtimes that you will access throughout the lab modules.  The webapp namespace contains a single application called frontend.  Its purpose is to generate a browser application that uses the API's to create a sentence to display on the web page.
 
