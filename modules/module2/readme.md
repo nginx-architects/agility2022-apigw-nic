@@ -2,20 +2,17 @@
 
 ## Layer 7 Request Routing and API Versioning
 
-As API's mature and developers continue to add features and functionality, it is oftentimes necessary to create new versions of those API's.  API versioning is accomplished in various ways.  Most commonly it is achieved by modifying the URL path so that /api/v1/colors becomes /api/v2/colors.  Alternative approaches include using a header value, e.g. Version=1.0 or by using query parameters, e.g. /api/colors?version=1.0.  This module will implement all three of these options.  
-
-Access to these new versions is normally implemented by modifying the path (i.e. URL) of the API.  So you would see a path like /myapi/v1/colors for the original API and /myapi/v2/colors for the new, v2 version of the API.  While the path changes for the two versions, the FQDN would normally remain the same. With the NIC you will need to use "path-based" routing.  This is core functionality for all Ingress Controllers but it is easy to implement with NGINX custom resources VirtualServer.   
+As API's mature and developers continue to add features and functionality, it is oftentimes necessary to create new versions of those API's.  API versioning is accomplished in various ways.  Most commonly it is achieved by modifying the URL path so that `/api/v1/colors` becomes `/api/v2/colors`.  Alternative approaches include using a header value, e.g. `Version=1.0` or by using query parameters, e.g. `/api/colors?version=1.0`.  In this module will focus on implementing versions through paths with the VirtualServerRoute (VSR) resource.  
 
 In this module you will learn:
 1. The VirtualServerRoute custom resource 
 2. Cross namespace Path-Based Routing Using VirtualServerRoute
 
 In the previous module we enabled traffic routing from outside the cluster to the API runtimes inside the cluster running in the api namespace.  In this module we will enable access to new versions of the API endpoints, v2, running in the apiv2 namespace.  Separating development efforts into dedicated namespaces is a good way to prevent accidental modifications to existing code.  It can also be used to enable RBAC or even Network Policy constraints.  
-## Step 1
 
-Background on VirtualServerRoute (VSR).  
+## 1. Background on VirtualServerRoute (VSR)  
 
-In Module 1 we used the VirtualServer (VS) resource to configure the NGINX load balancer in the Ingress pods to proxy requests to API runtimes.  The VS includes the `vs.spec.upstreams` and `vs.spec.routes` objects.  The routes contained a path and an action.  The VSR resource lets you further define `vs.spec.routes`.  This is done by replacing `vs.spec.routes.action` with `vs.spec.routes.route`.  The "route" string references a VSR object along with the namespace it is in.  
+In Module 1 we used the VirtualServer (VS) resource to configure the NGINX load balancer in the Ingress pods to proxy requests to API runtimes.  The VS includes the `vs.spec.upstreams` and `vs.spec.routes` objects.  The routes contained a `path` and an `action`.  The VSR resource lets you further define `vs.spec.routes`.  This is done by replacing `vs.spec.routes.action` with `vs.spec.routes.route`.  The "route" string references a VSR object along with the namespace it is in.  
 
 Here is what it looks like in the VS and VSR manifests:
 
@@ -46,7 +43,7 @@ This is what it looks like in the VS and VSR manifest files:
 
 ![VSR Reference](media/vs-2-vsr-2.png)
 
-## Step 2
+## 2. VirtualServerRoute (VSR)
 
 In this step we will apply a new VirtualServer manifest and create two VirtualServerRoute resources with new manifests, one for each version of our API.  
 
@@ -64,7 +61,11 @@ If you list this new version of the VS you will note that it is in a "Warning" s
 kubectl get vs -n api apis
 ```
 
-This is because it is referencing VSR's that don't exist yet.  Let's fix that by creating the VSR's with:
+![VS Warning](media/apis-vs-warning.png)
+
+This is because it is referencing VSR's that don't exist yet.  
+
+Let's fix that by creating the VSR's with:
 
 ```bash
 kubectl apply -f module2/api-runtimes-vsr-v1.yaml
@@ -86,10 +87,39 @@ Once again, get a listing of the VS in the api namespace to check its state:
 kubectl get vs -n api apis
 ```
 
-You should now see it in the "Valid" state.
-## Step 3
+![VS Valid](media/apis-vs-valid.png)
 
-Test new configuration.  
+You should now see it in the "Valid" state.
+
+Let's also take a look at our VSR resources with this command:
+
+```bash
+kubectl get vsr -A  # list all VSR's in all namespaces
+```
+
+Note that we have two VSR's, each in their own namespace.
+
+![VSR Listing](media/vsr-listing.png)
+
+## 3. Testing the New Configuration
+
+Now that you have redeployed both the VS and VSR resources, return to Postman to test access to both the v1 and v2 API endpoints.
+
+Navigate to the collection for Module 2.  
+
+![Module 2 API Requests](media/Mod2-api-requests.png)
+
+Run the request for "Colors API Endpoint v1".  You should see a 200 response and the response body should contain a listing of colors and associated ID's just like in Module 1.  
+
+![apiv1 Response](media/apiv1-response.png)
+
+Great, we didn't lose any functionality with our new configuration using VS and VSR.  
+
+Now run the request for the v2 colors API.  
+
+![Module 2 API v2 Request](media/colors-apiv2-request.png)
+
+You should see a 200 response and a longer list of colors and their ID's in the response body.  
 
 -------------
 

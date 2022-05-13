@@ -9,13 +9,18 @@ spec:
     secret: grpc-secret
   upstreams:
   - name: echo
-    service: echo2-grpc
+    service: echo-grpc
     port: 8081
     type: grpc
+  - name: reverse
+    service: reverse-grpc
+    port: 8082
+    type: grpc
   routes:
-  - path: /
+  - path: /api.Echo/Echo
     action:
       pass: echo
-      #  - path: /api.Reverse
-      #    action:
-      #      pass: envoy
+  - path: /api.Reverse/Reverse
+    action:
+      pass: reverse
+    
