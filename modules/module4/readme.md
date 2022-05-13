@@ -14,7 +14,7 @@ In this step you will look into a custom policy that would enable jwt for the an
 
 Inspect the `module4/jwt-policy.yaml` file. 
 
-![jwt policy](media/module4_jwt_policy.png)
+![jwt policy](media/module4_jwt-policy.png)
 
 `realm` field defines the realm of the jwt.
 
@@ -22,59 +22,82 @@ Inspect the `module4/jwt-policy.yaml` file.
 
 `token` field specifies a variable that would hold the JSON Web Token in incoming request. By default the JWT is passed in the Authorization header as a Bearer Token. JWT may also be passed as a cookie or part of the quary string. In above example, you define a request header field named `token` that would contain the JWT.
 
-
-
-Run the following command to create the custom policy within your existing setup
+Run the following command to create the `jwk-secret` which would be used in the JWT custom policy.
 ```bash
-kubectl apply -f module3/rate-limit.yaml
+kubectl apply -f module4/jwk-secret.yaml
 ```
-![Apply policy](media/module3_apply-policy.png)
+![Create jwk secret](media/module4_create-secret.png)
+
+Once the secret has been created you will create the JWT custom policy by running the following command. 
+```bash
+kubectl apply -f module4/jwt-policy.yaml
+```
+![Create jwt policy](media/module4_create-jwt-policy.png)
 
 Run the following command to view all the custom policies within a particular namespace
 ```bash
 kubectl get policy -n api
 ```
 
-## 2. How to modify the VirtualServer object to enable rate limiting on your set of APIs
+## 2. How to modify the VirtualServer object to enable JWT authentication on your set of APIs
 
-Once the rate limit policy has been created the next part would be to enable this policy to APIs by modifying the VirtualServer object. You can perform this task two ways.
+Once the JWT policy has been created the next part would be to enable this policy to APIs by modifying the VirtualServer object. This process would be same as applying rate limit policy that you look at in the last section. You can perform this task two ways.
 
 1. Apply policy to all routes. (spec policies)
 2. Apply policy to a specific route. (route policies)
 
-As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the [References](#references) section.
+As part of this workshop, you will apply the policy to a specific route (Animals API). For more information on how to apply policies to all routes look into the link in the [References](#references) section.
 
-Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the rate limit policy to restrict the usage of Colors API. (See highlighted section in the screenshot below)
+Inspect the `module4/api-runtimes-vs-with-jwt.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the jwt policy to restrict the usage of Animals API. (See highlighted section in the screenshot below)
 
-![API VS ratelimit](media/module3_api_vs_ratelimit.png)
+![API VS JWT](media/module4_api-vs-jwt.png)
 
 Run the following command to update the existing `apis` VirtualServer object with the new changes
 ```bash
-    kubectl apply -f module3/api-runtimes-vs-with-ratelimit.yaml
+    kubectl apply -f module4/api-runtimes-vs-with-jwt.yaml
 ```
-![API VS apply](media/module3_api_vs_apply.png)
+![API VS apply](media/module4_api_vs_apply.png)
 
-Now lets test the APIs and see if the rate limit is restricting traffic based on the policy that you applied.
+Now lets test the API and see what responses you get when you access the Animals API with/without JWT token in the request header.
 
-As part of testing you would run a series of curl commands that are placed within a for loop and iterated 20 times.
+As part of testing, based on your preference, you can either use postman tool or you can run curl commands to make calls to the Animals API endpoint.
 
-Copy the below command and paste in terminal:
+### Testing via Postman
+
+Switch to the Postman application in the Jumphost. In the "*Collection*" on the left, select "*APIGW With NIC*". Navigate to module 4.
+
+![Module4 Postman Collection](media/module4_postman_collection.png)
+
+Run the first request "*Animals API call without jwt token*".  You should see a `401 Unauthorized` response code with the relevant response body stating "*Authorization Required*".
+
+![Module4 Postman request1](media/module4_postman_request1.png)
+
+You are receiving this response as the JWT policy has been applied to Animals API and you are not allowed to access this API endpoint without passing a JWT token in the request header.
+
+Run the second request "*Animals API calls with jwt token*". You should see a `200 OK` response code and the response body should contain a listing of animals and associated ID's. 
+
+![Module4 Postman Request2](media/module4_postman_request2.png)
+
+If you closely look into the request in above screenshot, you should see a key named `token` has been added to the request header. This key stores a valid jwt token and is passed with the request.
+
+### Testing via cURL
+
+Within the vscode terminal, run the below curl command to send a request to Animals API. On running the curl command, you should see a `401 Unauthorized` response code with the relevant response body stating "*Authorization Required*".
 ```bash
-for i in {1..20}; do curl -Is http://api.example.com/api/v1/locations | grep "HTTP"; done
+curl -i http://api.example.com/api/v1/animals
 ```
-![for loop for locations](media/module3_test_locations.png)
+![curl request1](media/module4_curl_request1.png)
 
-Also run below command:
+You are receiving this response as the JWT policy has been applied to Animals API and you are not allowed to access this API endpoint without passing a JWT token in the request header.
+
+Run the below curl command. This time you should see a `200 OK` response code and the response body should contain a listing of animals and associated ID's.
 ```bash
-for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "HTTP"; done
+curl -i http://api.example.com/api/v1/animals -H "token: `cat module4/token.jwt`" 
 ```
-![for loop for colors](media/module3_test_colors.png)
+![curl request2](media/module4_curl_request2.png)
 
-What do you notice in the output of the two commands? 
+As part of the second curl command, you are adding a key named `token` in the request header. This key stores a valid jwt token and is passed with the request.
 
-For the first command you get all `200` response status codes whereas for the second command you get a mix of `200` and `503` response status codes. This is because you are calling the colors API in the second command for which you have applied the rate limit policy.
-
-**Note:** `503` response status code is the default reject code within rate limit policy.
 
 Next you would change the default reject code to `429` which is more specific reject code than the default one.
 
@@ -99,7 +122,7 @@ You will notice that the output now is a mix of `200` and `429` response status 
 Please look into the [References](#references) section for more information on additional fields that can be used with rate limit custom policy. 
 
 ## References:
-- [Rate Limit Policy Doc](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#ratelimit)
+- [JWT Policy Doc](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#jwt)
 - [Various Ways of applying policies](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies)
 
 

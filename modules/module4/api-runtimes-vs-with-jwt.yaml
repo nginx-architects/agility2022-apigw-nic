@@ -29,6 +29,9 @@ spec:
     action:
       pass: locations
   - path: /api/v1/animals
+    policies:
+    - name: jwt-policy
+      namespace: api
     action:
       pass: animals
   - path: /api/v1/colors
