@@ -100,6 +100,12 @@ As part of the second curl command, you are adding a key named `token` in the re
 
 Please look into the [References](#references) section for more information on JWT custom policy. 
 
+Before moving to the next module run the below command so that we cleanup the objects that we created in this module.
+```bash
+sh module4/cleanup.sh
+```
+![cleanup](media/module4_cleanup.png)
+
 ## References:
 - [JWT Policy Doc](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#jwt)
 - [Various Ways of applying policies](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies)
