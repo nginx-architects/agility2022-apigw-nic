@@ -98,34 +98,11 @@ curl -i http://api.example.com/api/v1/animals -H "token: `cat module4/token.jwt`
 
 As part of the second curl command, you are adding a key named `token` in the request header. This key stores a valid jwt token and is passed with the request.
 
-
-Next you would change the default reject code to `429` which is more specific reject code than the default one.
-
-Open `module3/rate-limit.yaml` file in vscode and then add the `rejectCode` field as shown below and then save the file:
-
-![rate limit with reject code yaml](media/module3_add_rejectcode.png)
-
-Run the following command to update the existing `rate-limit-policy` policy object with the new changes
-```bash
-kubectl apply -f module3/rate-limit.yaml
-```
-![Reapply policy](media/module3_reapply_policy.png)
-
-Once the policy is configured, run the below command to see the change.
-```bash
-for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "HTTP"; done
-```
-![for loop for colors](media/module3_test_colors.png)
-
-You will notice that the output now is a mix of `200` and `429` response status code. You successfully updated the rate-limit policy to return `429` reject code instead of the default generic `503` reject code.
-
-Please look into the [References](#references) section for more information on additional fields that can be used with rate limit custom policy. 
+Please look into the [References](#references) section for more information on JWT custom policy. 
 
 ## References:
 - [JWT Policy Doc](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#jwt)
 - [Various Ways of applying policies](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies)
-
-
 
 -------------
 
