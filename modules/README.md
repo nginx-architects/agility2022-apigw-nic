@@ -2,7 +2,14 @@
 
 Welcome to the 2022 Agility Lab on using the NGINX Ingress Controller as an API Gateway!
 
-In the Lab you will learn about the following
+This lab walks the student through configuration of the F5 NGINX Plus Ingress Controller fronting both RESTful and gRPC API endpoints. The student will learn to implement common API gateway requirements of:  
+
+- Rate limiting 
+- JWT validation 
+- L7 protection (WAF)
+- Request routing
+- Canary deployments
+- Observability
 
 ## Lab Outline
 
