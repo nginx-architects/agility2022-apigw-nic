@@ -54,7 +54,7 @@ A quick look at the architecture:
 
 ![Module 7 Architecture](./media/Agility%20Module%207%20-%20gRPC.jpeg)
 
-The echo and reverse applications have been deployed in the api namespace with two pods for each.  Separate services have been created to expose those applications.  You will need to make those applications accessible from outside of the cluster by configuring the NIC.  
+The echo and reverse applications have been deployed in the api namespace with two pods for each application.  Separate services have been created to expose those applications.  You will need to make those applications accessible from outside of the cluster by configuring the NIC.  
 
 ## 3. Configure the NIC to proxy and Loadbalance gRPC Requests and Test
 
@@ -95,7 +95,7 @@ You should see a state of "Valid"
 
 ![Valid-VS](media/valid-grpc-vs.png)
 
-To test the new configuration, return to the Postman application.  Navigate to the collection called "API Gateway with NIC", "Module 7" and select the "Echo gRPC Request".
+To test the new configuration, return to the Postman application.  Navigate to the collection called "APIGW with NIC gRPC", "Module 7" and select the "Echo gRPC Request".
 
 ![grpc Collection](media/grpc-collection.png)
 
