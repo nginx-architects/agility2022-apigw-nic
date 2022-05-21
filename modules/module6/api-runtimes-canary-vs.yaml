@@ -1,7 +1,7 @@
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
-  name: apis
+  name: apis-vs
   namespace: api
 spec:
   host: api.example.com
