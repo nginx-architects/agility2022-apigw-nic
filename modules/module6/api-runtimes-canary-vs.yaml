@@ -33,7 +33,7 @@ spec:
       pass: locations
   - path: /api/v1/animals
     location-snippets: |
-      add_header host $proxy_host;
+      add_header Host $proxy_host;
     splits:
     - weight: 80
       action:
