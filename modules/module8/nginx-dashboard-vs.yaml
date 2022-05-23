@@ -1,0 +1,16 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: dashboard-vs
+  namespace: nginx-ingress
+spec:
+  host: dashboard.example.com
+  upstreams:
+  - name: dashboard
+    service: nginx-ingress
+    port: 8080
+  routes:
+  - path: /dashboard.html
+    action:
+      pass: dashboard
+    
