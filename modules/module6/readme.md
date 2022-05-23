@@ -88,11 +88,9 @@ You should see roughly 8 responses from the original animals API endpoint and 2 
 
 ![Canary Responses](media/split-responses.png)
 
-     You can configure the ratio in 1% increments, from 1-99%.  
+You can configure the ratio in 1% increments, from 1-99%.  
 
-
-
-    > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but Nginx Ingress Controller is routing the requests to 2 different services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
+**Note!**   You are still using the http://api.example.com/animals URL - you did not have to change the PATH of the url.  Nginx Ingress Controller is routing the requests to 2 different services, 80% to animals AND 20% to animalsv2.   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
 
 
 -------------
