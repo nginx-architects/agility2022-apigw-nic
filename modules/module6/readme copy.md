@@ -44,7 +44,7 @@ You should now see a single pod with a status of "Running"
 
 ![Running Animals](media/running-animals.png)
 
-## 2. Learn the Updated VS Manifest
+## 2. Learn and Apply the Updated VS Manifest
 
 Creating this canary deployment is only a slight modification to the VirtualServer manifest you have been looking at since Module1.  The first change is the addition of the animalsv2 upstream.  
 
@@ -58,6 +58,29 @@ The weights each have their own action which, in our case, passes to the two ver
 
 **Note:** Nginx will not load the Split configuration, if the ratio does not add up to 100%.
 
+Apply the updated VS manifest with the command:
+
+```bash
+kubectl apply -f module6/api-runtimes-canary-vs.yaml
+```
+
+Verify that the VirtualServer object was updated successfully by running:
+
+```bash
+kubectl get vs -n api
+```
+
+You should see the following:
+
+![VS Success](media/Valid-vs.png)
+
+
+## 3. Testing the Canary Deployment
+
+Now check that the requests are being distributed to the two animal versions.
+
+Run the following:
+
 
     Check the statistics on the Plus Dashboard cafe-bluegreen upstreams.... Do you see approximately an 80/20 Requests ratio between coffee and tea?  You can configure the ratio in 1% increments, from 1-99%.  
 
@@ -66,7 +89,6 @@ The weights each have their own action which, in our case, passes to the two ver
 
     > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but Nginx Ingress Controller is routing the requests to 2 different services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
 
-<br/>
 
 -------------
 

@@ -35,10 +35,20 @@ spec:
     splits:
     - weight: 80
       action:
-        pass: animals
+        proxy: 
+          upstream: animals
+          responseHeaders:
+            add:
+            - name: host
+              value: $proxy_host
     - weight: 20
       action:
-        pass: animalsv2
+        proxy: 
+          upstream: animalsv2
+          responseHeaders:
+            add:
+            - name: host
+              value: $proxy_host
   - path: /api/v1/colors
     action:
       pass: colors
