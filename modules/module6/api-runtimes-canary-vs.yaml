@@ -1,11 +1,14 @@
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
-  name: apis-vs
+  name: apis
   namespace: api
 spec:
   host: api.example.com
   upstreams:
+  - name: animalsv2
+    service: animalsv2
+    port: 80
   - name: generator
     service: generator
     port: 80
@@ -14,9 +17,6 @@ spec:
     port: 80
   - name: animals
     service: animals
-    port: 80
-  - name: animalsv2
-    service: animalsv2
     port: 80
   - name: adjectives
     service: adjectives
@@ -33,10 +33,10 @@ spec:
       pass: locations
   - path: /api/v1/animals
     splits:
-    - weight: 90
+    - weight: 80
       action:
         pass: animals
-    - weight: 10
+    - weight: 20
       action:
         pass: animalsv2
   - path: /api/v1/colors

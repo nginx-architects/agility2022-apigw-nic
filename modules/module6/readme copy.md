@@ -1,8 +1,6 @@
-# Module 6:
-
+# Module 6
 
 ### Canary Testing
-
 
 ![BlueGreen](media/lab10_bluegreen_icon.jpeg)
 
@@ -18,9 +16,9 @@ In this module you will:
 
 You will use the currently running animals deployment and deploy a new, V2 version of animals to the same namespace.  The traffic will be split at an 80:20 ratio between animals and animalsv2 applications.  
 
-## 1. Become Familiar with and Build the Environment 
+## 1. Become Familiar with and Build the Environment
 
-Refer to the following diagram to become familiar with module's environment. 
+Refer to the following diagram to become familiar with module's environment.
 
 ![Canary](media/Agility-UDF-Canary.png)
 
@@ -28,42 +26,47 @@ The environment relative to the NGINX Ingress Controller (NIC) is the same as be
 
 Note that a given client may get the original version on one request and the new version on a subsequent request.  You would need to determine whether this would make sense for your application of if that has the potential to break things.  If you needed the client to return to the same version each time then additional configuration would need to be implemented for stickiness to a version.  
 
-If you inspect the environment you will notice that the new version of animals hasn't been deployed yet.  Let's do that now
+If you inspect the environment you will notice that the new version of animals hasn't been deployed yet.  Let's do that now.
+
+Run the following command to deploy the new version of animals, animals-v2:
+
+```bash
+kubectl apply -f module6/animals-v2.yaml -n api
+````
+
+This will create both a service called animalsv2 and and a deployment with the same name and with a single pod.  Verify the pod is running with:
+
+```bash
+kubectl get po -n api | grep animalsv2
+```
+
+You should now see a single pod with a status of "Running"
+
+![Running Animals](media/running-animals.png)
+
 ## 2. Learn the Updated VS Manifest
-2. Check the Plus Dashboard, there should only be one coffee and one tea upstream now.
 
-    ![Bluegreen Cafe upstreams](media/lab10_bluegreen_upstreams.png)
+Creating this canary deployment is only a slight modification to the VirtualServer manifest you have been looking at since Module1.  The first change is the addition of the animalsv2 upstream.  
 
-    Inspect the `lab10/cafe-bluegreen-vs.yaml` file, and note the `split and weight` directives on lines 49-56.
+![AnimalsV2 Upstream](media/animalsv2-upstream.png)
 
-    ![Bluegreen Splits](media/lab10_bluegreen_splits.png)
+The second change comes in the new spec.routes.splits entry.  The splits are further defined by the weights entries.  For example:
 
-3. Next, remove the existing VirtualServer for mTLS from the previous exercise:
+![Splits](media/canary-splits.png)
 
-    ```bash
-    kubectl delete -f lab10/cafe-mtls-vs.yaml
-    ```
+The weights each have their own action which, in our case, passes to the two versions of the animals upstreams.  
 
-4. Now configure the Cafe Virtual Server to send 80% traffic to coffee-mtls, and 20% traffic to tea-mtls:
+**Note:** Nginx will not load the Split configuration, if the ratio does not add up to 100%.
 
-    ```bash
-    kubectl apply -f lab10/cafe-bluegreen-vs.yaml
-    ```
-
-5. Open a Chrome tab for https://cafe.example.com/coffee, and check the Auto Refresh box at the bottom of the page.
-
-    ![Bluegreen Auto Refresh](media/lab10_bluegreen_refresh.png)
 
     Check the statistics on the Plus Dashboard cafe-bluegreen upstreams.... Do you see approximately an 80/20 Requests ratio between coffee and tea?  You can configure the ratio in 1% increments, from 1-99%.  
 
-    **Note:** Nginx will not load the Split configuration, if the ratio does not add up to 100%.
 
     ![Bluegreen Splits](media/lab10_bluegreen_dashboard.png)
 
     > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but Nginx Ingress Controller is routing the requests to 2 different services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
 
 <br/>
-
 
 -------------
 
