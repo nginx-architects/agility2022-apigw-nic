@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wrk1
+  namespace: load
+spec:
+  schedule: "*/1 * * * *"
+  startingDeadlineSeconds: 30600000
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: wrk1
+            image: williamyeh/wrk
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: ENTRY
+              value: "10.1.1.8  api.example.com"
+            command: ["/bin/sh"]
+            args: ["-c","echo $(ENTRY) >> /etc/hosts; wrk -c20 -t12 -d50s http://api.example.com/api/v1"]
+          restartPolicy: OnFailure
