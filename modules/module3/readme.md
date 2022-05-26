@@ -1,4 +1,4 @@
-# Module 3: 
+# Module 3:
 
 ## Restricting access by applying Rate Limits on API
 
@@ -108,9 +108,9 @@ for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "HTTP"
 
 You will notice that the output now is a mix of `200` and `429` response status code. You successfully updated the rate-limit policy to return `429` reject code instead of the default generic `503` reject code.
 
-Please look into the [References](#references) section for more information on additional fields that can be used with rate limit custom policy. 
+Please look into the [References](#references) section for more information on additional fields that can be used with rate limit custom policy.
 
-## References:
+## References
 
 - [Rate Limit Policy Doc](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#ratelimit)
 - [Various Ways of applying policies](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies)

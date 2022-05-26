@@ -1,27 +1,23 @@
-# Module 8:
+# Module 8
 
 ## Monitoring NGINX Plus Ingress with Prometheus and Grafana
 
-A common requirement for API Gateways is to be able to see how well it is performing, both relative to the overall response times as well as how well the API runtimes are performing.  In this module we will look at a few tools that opens up the 
+## Introduction
 
-This lab exercise is going to walk you through how to install and use several tools to monitor your NGINXPlus Ingress Controller in your Kubernetes cluster. 
+This lab exercise is going to walk you through how to install and use several tools to monitor your NGINXPlus Ingress Controller in your Kubernetes cluster.
 
-## Learning Objectives 
+## Learning Objectives
 
-By the end of the lab, you will be able to: 
+By the end of the lab, you will be able to:
 
 - Learn and Use Helm Charts
 - Deploy Prometheus using Helm
 - Deploy Grafana using Helm
 - Access these apps thru NGINX Ingress Controller
 
-<br/>
-
 Helm | Prometheus | Grafana
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](media/helm-icon.png)  |![](media/prometheus-icon.png)  |![](media/grafana-icon.png)
-
-<br/>
 
 Here is a brief description of what these different tools and application provide, and how you will use them.
 
@@ -30,10 +26,6 @@ Here is a brief description of what these different tools and application provid
 `Prometheus` is a software package that can watch and collect statistics from many different k8s pods and services.  It then provides those statistics in a simple html/text format, often referred to as the "scraper page", meaning that it scrapes the statistics and presents them as a simple text-based web page.
 
 `Grafana` is a data visualization tool, which contains a time series database and graphical web presentation tools.  Grafana imports the Prometheus scraper page statistics into it's database, and allows you to create `Dashboards` of the statistics that are important to you.  There are a large number of pre-built dashboards provided by both Grafana and the k8s community, so there are many available to use. And of course, you can customize them as needed or build your own.
-
-<br/>
-
-### Helm Installation
 
 ![Helm](media/helm-icon.png)
 
@@ -367,7 +359,6 @@ You can login using the same admin/password credentials that you used earlier.
 - [VirtualServer and VirtualServerRoute](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
 
 - [Grafana NGINX Plus IC Dashboard](https://github.com/nginxinc/kubernetes-ingress/tree/master/grafana)
-
 
 
 Navigate to [Main Menu](../README.md))
