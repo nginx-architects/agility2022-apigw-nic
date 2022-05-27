@@ -33,4 +33,4 @@ spec:
     template:
       name: POLICY_TEMPLATE_NGINX_BASE
     open-api-files:
-    - link: https://gitlab.com/sentence-app/adjectives/-/raw/main/oas-adjectives-v0.1.yaml
+    - link: https://gitlab.com/sentence-app/colors/-/raw/main/oas-colors-v0.1.yaml
