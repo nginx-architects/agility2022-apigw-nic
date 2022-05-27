@@ -1,22 +1,44 @@
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
-  name: webapp
-  namespace: nap
+  name: apis
+  namespace: api
 spec:
-  host: webapp.example.com
-  policies:
-  - name: waf-policy
+  host: api.example.com
   tls:
     secret: webapp-secret
   upstreams:
-  - name: webapp
-    service: frontend
+  - name: generator
+    service: generator
+    port: 80
+  - name: locations
+    service: locations
+    port: 80
+  - name: animals
+    service: animals
+    port: 80
+  - name: adjectives
+    service: adjectives
+    port: 80
+  - name: colors
+    service: colors
     port: 80
   routes:
-  - path: /v2
+  - path: =/api/v1
     action:
-      pass: /api/v1/locations
-  - path: /v1
+      pass: generator
+  - path: /api/v1/locations
     action:
-      pass: webapp
+      pass: locations
+  - path: /api/v1/animals
+    action:
+      pass: animals
+  - path: /api/v1/colors
+    policies:
+    - name: waf-policy
+      namespace: api
+    action:
+      pass: colors
+  - path: /api/v1/adjectives
+    action:
+      pass: adjectives
