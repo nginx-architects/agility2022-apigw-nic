@@ -44,7 +44,7 @@ Once the rate limit policy has been created the next part would be to enable thi
 1. Apply policy to all routes. (spec policies)
 2. Apply policy to a specific route. (route policies)
 
-As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the [References](#references) section.
+As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the References section.
 
 Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the rate limit policy to restrict the usage of Colors API. (See highlighted section in the screenshot below)
 
@@ -108,7 +108,7 @@ for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "HTTP"
 
 You will notice that the output now is a mix of `200` and `429` response status code. You successfully updated the rate-limit policy to return `429` reject code instead of the default generic `503` reject code.
 
-Please look into the [References](#references) section for more information on additional fields that can be used with rate limit custom policy.
+Please look into the References section for more information on additional fields that can be used with rate limit custom policy.
 
 ## References
 
