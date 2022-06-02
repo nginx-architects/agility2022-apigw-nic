@@ -15,14 +15,43 @@ In this step you will apply a custom policy that enables NGINX App Protect Polic
 
 Inspect the `module5/ap-policy.yaml`file. This is where we define our App Protect policy custom resource. Notice towards the bottom of the spec we reference the NGINX base template this is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an open api spec file or OAS for short, (https://gitlab.com/sentence-app/adjectives/-/raw/main/oas-adjectives-v0.1.yaml). We can use this for a very accurate policy for protecting these APIs. 
 
+Now lets apply the manifest 
+
+```bash
+    kubectl apply -f module5/ap-policy.yaml
+```
+
 Inspect the `module5/ap-logconf.yaml`file. This is where we define our App Protect logging. The spec consists of two parts, filter: which requests are to be logged and content: how the message is formatted. 
+
+Now lets apply the manifest.
+
+```bash
+    kubectl apply -f module5/ap-logconf.yaml
+```
 
 Inspect the `module5/syslog.yaml`file. We stream our NAP logs into this syslog deployment.
 
+Now lets apply the manifest.
+
+```bash
+    kubectl apply -f module5/syslog.yaml
+```
+
 Inspect the `module5/waf.yaml`file. This is where we specify the above manifest files.
 
-Inspect the `module5/ap-uds.yaml`file. This is where we define our App Protect User Defined Signatures. This allows us to develop custom attack signatures,for our environment. The signatures that you define are stored in the attack signatures pool along with the system-supplied signatures.
+Now lets apply the manifest.
 
+```bash
+    kubectl apply -f module5/waf.yaml
+```
+
+Inspect the `module5/ap-uds.yaml`file. This is where we define our App Protect User Defined Signatures. This capability allows the user to define new signatures, configure how they behave in terms of enforcement, and categorize them in user-defined signature sets (using tags) for ease of management. Tags help organizing the user-defined signatures in bundles so that all signatures in that bundle are (usually) authored by the same person and share a common purpose or set of applications that will consume it. It also creates name spaces that avoid name conflicts among user-defined signatures. Signatures are uniquely identified by the combination of tag and name. 
+
+Now lets apply the manifest.
+
+```bash
+    kubectl apply -f module5/ap-uds.yaml
+```
 
 ## 2. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
 
@@ -35,12 +64,6 @@ As part of this workshop, you will apply the policy to a specific route (Colors 
 
 Inspect the `module5/api-runtimes-vs-with-waf.yaml` file. This file modifies the `apis` VirtualServer object from module 1 and applies the App Protect policy to restrict the usage of Colors API. 
 
-Run the following command to update the existing `apis` VirtualServer object with the new changes
-
-```bash
-    kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
-```
-
 Now lets test the API and see what responses you get when you access the Colors API with/without App Protect Policy.
 
 As part of testing, based on your preference, you can either use postman tool or you can run curl commands to make calls to the Colors API endpoint.
@@ -51,14 +74,9 @@ Switch to the Postman application in the Jumphost. In the "Collection" on the le
 
 click Send, You should see a 200 response code.
 
-To test apply the App Protect and associated manifests. 
+Run the following command to update the existing `apis` VirtualServer object with the App Protect policy and associated manifests. 
 
 ```bash
-    kubectl apply -f module5/syslog.yaml
-    kubectl apply -f module5/ap-policy.yaml
-    kubectl apply -f module5/ap-logconf.yaml
-    kubectl apply -f module5/ap-uds.yaml
-    kubectl apply -f module5/waf.yaml
     kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
 ```
 
@@ -80,14 +98,9 @@ curl -iX POST --insecure -d 'white' api.example.com/api/v1/colors
 
 You are receiving this response because the App Protect Policy has not been applied to the colors API and you are allowed to access this API endpoint without violating the policy.
 
-To test apply the App Protect and associated manifests. 
+Run the following command to update the existing `apis` VirtualServer object with the App Protect policy and associated manifests. 
 
 ```bash
-    kubectl apply -f module5/syslog.yaml
-    kubectl apply -f module5/ap-policy.yaml
-    kubectl apply -f module5/ap-logconf.yaml
-    kubectl apply -f module5/ap-uds.yaml
-    kubectl apply -f module5/waf.yaml
     kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
 ```
 
@@ -96,8 +109,8 @@ Within the vscode terminal, run the below curl command to send a request to Colo
 ```bash
 curl -iX POST --insecure -d 'white' api.example.com/api/v1/colors
 ```
-![curl request2](media/curl.png)
 
+![curl request2](media/curl.png)
 
 Please look into the References section for more information on NGINX App Protect. 
 
