@@ -13,15 +13,15 @@ In this module you will learn:
 
 In this step you will apply a custom policy that enables NGINX App Protect Policy for the colors API.
 
-Inspect the module5/ap-policy.yaml file. This is where we define our App Protect policy custom resource. Notice towards the bottom of the spec we reference the NGINX base template this is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an open api spec file or OAS for short, (https://gitlab.com/sentence-app/adjectives/-/raw/main/oas-adjectives-v0.1.yaml). We can use this for a very accurate policy for protecting these APIs. 
+Inspect the `module5/ap-policy.yaml`file. This is where we define our App Protect policy custom resource. Notice towards the bottom of the spec we reference the NGINX base template this is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an open api spec file or OAS for short, (https://gitlab.com/sentence-app/adjectives/-/raw/main/oas-adjectives-v0.1.yaml). We can use this for a very accurate policy for protecting these APIs. 
 
-Inspect the module5/ap-logconf.yaml file. This is where we define our App Protect logging. The spec consists of two parts, filter: which requests are to be logged and content: how the message is formatted. 
+Inspect the `module5/ap-logconf.yaml`file. This is where we define our App Protect logging. The spec consists of two parts, filter: which requests are to be logged and content: how the message is formatted. 
 
-Inspect the module5/syslog.yaml file. This is where we create a sys log deployment and service.
+Inspect the `module5/syslog.yaml`file. We stream our NAP logs into this syslog deployment.
 
-Inspect the module5/waf.yaml file. This is where we specify the above manifest files.
+Inspect the `module5/waf.yaml`file. This is where we specify the above manifest files.
 
-Inspect the module5/ap-uds.yaml file. This is where we define our App Protect User Defined Signatures. This allows us to develop custom attack signatures,for our environment. The signatures that you define are stored in the attack signatures pool along with the system-supplied signatures.
+Inspect the `module5/ap-uds.yaml`file. This is where we define our App Protect User Defined Signatures. This allows us to develop custom attack signatures,for our environment. The signatures that you define are stored in the attack signatures pool along with the system-supplied signatures.
 
 
 ## 2. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
@@ -47,7 +47,11 @@ As part of testing, based on your preference, you can either use postman tool or
 
 
 ### Testing via Postman
-To test apply the App Protect and assosicated manifests. 
+Switch to the Postman application in the Jumphost. In the "Collection" on the left navigate to module 5, select the POST call. 
+
+click Send, You should see a 200 response code.
+
+To test apply the App Protect and associated manifests. 
 
 ```bash
     kubectl apply -f module5/syslog.yaml
@@ -55,58 +59,53 @@ To test apply the App Protect and assosicated manifests.
     kubectl apply -f module5/ap-logconf.yaml
     kubectl apply -f module5/ap-uds.yaml
     kubectl apply -f module5/waf.yaml
-    kubectl apply -f module5/webapp.yaml
+    kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
 ```
 
-![Module5 Postman Collection](media/postman.png)
-
-Switch to the Postman application in the Jumphost. In the "Collection" on the left navigate to module 5, select the POST call. 
+Now go back to the Postman application in the Jumphost. In the "Collection" on the left navigate to module 5, select the POST call. 
 
 
 click Send, You should see a 403 Unauthorized response code with the relevant response body and a support ID.
 
+![Module5 Postman Collection](media/postman.png)
+
 
 ### Testing via cURL 
 
-Run the below curl command. You should see a `200 OK` response code and the response body should contain a listing of colors and associated ID's.
+Run the below curl command. You should see a `200 OK` response code.
 
 ```bash
-curl -iX POST --insecure -d 'apple' api.example.com/api/v1/colors
+curl -iX POST --insecure -d 'white' api.example.com/api/v1/colors
 ```
 
 You are receiving this response because the App Protect Policy has not been applied to the colors API and you are allowed to access this API endpoint without violating the policy.
 
-To test apply the App Protect and assosicated manifests. 
+To test apply the App Protect and associated manifests. 
 
 ```bash
-    kubectl apply -f module5/waf.yaml
+    kubectl apply -f module5/syslog.yaml
     kubectl apply -f module5/ap-policy.yaml
     kubectl apply -f module5/ap-logconf.yaml
     kubectl apply -f module5/ap-uds.yaml
-    kubectl apply -f module5/syslog.yaml
-    kubectl apply -f module5/webapp-secret.yaml
-    kubectl apply -f module5/webapp.yaml
+    kubectl apply -f module5/waf.yaml
+    kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
 ```
 
-Within the vscode terminal, run the below curl command to send a request to Animals API. On running the curl command, you should see a 403 Unauthorized response code with the relevant response body and a support ID.
+Within the vscode terminal, run the below curl command to send a request to Colors API. On running the curl command, you should see a 403 Unauthorized response code with the relevant response body and a support ID.
 
 ```bash
-curl -iX POST --insecure -d 'apple' api.example.com/api/v1/colors
+curl -iX POST --insecure -d 'white' api.example.com/api/v1/colors
 ```
 ![curl request2](media/curl.png)
 
 
-Please look into the References section for more information on JWT custom policy. 
+Please look into the References section for more information on NGINX App Protect. 
 
 ## References:
-- [App Protect Policy Doc](https://docs.nginx.com/nginx-ingress-controller/app-protect/configuration/#app-protect-policies) 
-- [Various Ways of applying policies](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies)
-
-
-
-https://docs.nginx.com/nginx-app-protect/configuration-guide/configuration/
-
-https://docs.nginx.com/nginx-app-protect/declarative-policy/policy/ 
+- [NGINX Ingress Controller App Protect Configuration Doc](https://docs.nginx.com/nginx-ingress-controller/app-protect/configuration) 
+- [Various Ways of Applying Policies](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies)
+- [NGINX App Protect Configuration Doc](https://docs.nginx.com/nginx-app-protect/configuration-guide/configuration)
+- [App Protect Declarative Policy Doc](https://docs.nginx.com/nginx-app-protect/declarative-policy/policy)
 
 -------------
 
