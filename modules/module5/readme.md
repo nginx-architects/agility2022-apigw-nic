@@ -2,7 +2,7 @@
 
 ## Protecting APIs by using NGINX APP Protect 
 
-In the last module you protected your API from unwanted actors by enabling JWT authentication to your APIs. In this module you will protect your API against L7 attacks by enabling NGINX APP Protect WAF. With NGINX Plus Ingress Controller(NIC) you can enable NGINX APP Protect by creating a custom policy and then applying the policy to the custom Virtual Server resource that we worked on in previous modules.  
+In the last module you protected your API from unwanted actors by enabling JWT authentication to your APIs. In this module you will protect your API against L7 attacks by enabling NGINX APP Protect WAF. With NGINX Plus Ingress Controller(NIC) you can enable NGINX APP Protect by creating a custom policy and then applying the policy to the custom Virtual Server resource that you worked on in previous modules.  
 
 In this module you will learn:
 
@@ -33,14 +33,14 @@ Once the App Protect policy has been created the next step is to enable this pol
 1. Apply policy to all routes. (spec policies)
 2. Apply policy to a specific route. (route policies)
 
-As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the [References](#references) section.
+As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the References section.
 
-Inspect the module5/webapp.yaml file. We modified the apis VirtualServer object from module 1 and applied the App Protect policy to restrict the usage of Colors API. 
+Inspect the `module5/api-runtimes-vs-with-waf.yaml` file. This file modifies the `apis` VirtualServer object from module 1 and applies the App Protect policy to restrict the usage of Colors API. 
 
 Run the following command to update the existing `apis` VirtualServer object with the new changes
 
 ```bash
-    kubectl apply -f module5/webapp.yaml
+    kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
 ```
 
 Now lets test the API and see what responses you get when you access the Colors API with/without App Protect Policy.
