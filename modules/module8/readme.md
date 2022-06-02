@@ -68,6 +68,10 @@ You may have already noticed in the first section of this module that our NIC is
 kubectl describe ingress -n monitoring prometheus-ingress
 ```
 
+![Prometheus Ingress](media/prometheus-ingress.png)
+
+The points of interest have been highlighted including the host that the ingress applies to as well as the path and backend.  The backend is the service exposing Prometheus.
+
 Prometheus will collect the NGINX+ metrics from all of the running Ingress pods.  The advantage of Prometheus is that it can display historical data compared to the mostly realtime data provided by the NGINX+ Dashboard.  
 
 Access the Prometheus UI by opening a new browser tab and clicking the Prometheus bookmark in the bookmark bar.  

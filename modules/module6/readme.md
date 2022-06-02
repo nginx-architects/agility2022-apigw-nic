@@ -31,7 +31,7 @@ Run the following command to deploy the new version of animals, animals-v2:
 
 ```bash
 kubectl apply -f module6/animals-v2.yaml -n api
-````
+```
 
 This will create both a service called animalsv2 and and a deployment with the same name and with a single pod.  Verify the pod is running with:
 

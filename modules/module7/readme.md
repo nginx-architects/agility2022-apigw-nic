@@ -70,7 +70,7 @@ Two items to notice:
 Begin by creating the TLS secret in the api namespace with the following command:
 
 ```bash
-kubectl apply -f module7/grpc-secret.yaml -n api
+kubectl apply -f module7/grpc-tls-secret.yaml -n api
 ```
 
 Next, enable HTTP2 on the NIC by applying a ConfigMap with the following command:

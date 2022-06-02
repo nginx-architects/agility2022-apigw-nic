@@ -1,18 +1,19 @@
 apiVersion: appprotect.f5.com/v1beta1
 kind: APUserSig
 metadata:
-  name: apple
+  name: white-usersig
+  namespace: api
 spec:
   signatures:
   - accuracy: medium
     attackType:
       name: Brute Force Attack
-    description: Medium accuracy user defined signature with tag (Fruits)
-    name: Apple_medium_acc
+    description: Medium accuracy user defined signature with tag (BannedColor)
+    name: White_medium_acc
     risk: medium
-    rule: content:"apple"; nocase;
+    rule: content:"white"; nocase;
     signatureType: request
     systems:
     - name: Microsoft Windows
     - name: Unix/Linux
-  tag: Fruits
+  tag: BannedColor

@@ -2,7 +2,7 @@
 
 ## Protecting APIs by using JWT Authentication
 
-In the last module you restricted access to an API by setting Rate Limiting. In this module you will protect your API from unwanted actors by enabling JWT authentication to your APIs. With NGINX Plus Ingress Controller(NIC) you can enable JWT authentication by creating a custom policy and then applying the policy to the custom Virtual Server resource that we worked on in previous modules.  
+In the last module you restricted access to an API by setting Rate Limiting. In this module you will protect your API from unwanted actors by enabling JWT authentication to your APIs. With NGINX Plus Ingress Controller(NIC) you can enable JWT authentication by creating a custom policy and then applying the policy to the custom Virtual Server resource that you worked on in previous modules.  
 
 In this module you will learn:
 
@@ -19,7 +19,7 @@ Inspect the `module4/jwt-policy.yaml` file.
 
 The `realm` field defines the realm of the jwt.
 
-The `secret` field defines the name of the Kubernetes secret that stores the JWK. This secret needs to be in the same namespace as the Policy resource. The secret must also be of the type `nginx.org/jwk` otherwise the secret will be rejected as invalid. In above example, you are making use of `jwk-secret` which you will create in `api` namespace before creating this policy.
+The `secret` field defines the name of the Kubernetes secret that stores the JWK. This secret needs to be in the same namespace as the Policy resource. The secret must also be of the type `nginx.org/jwk` otherwise the secret will be rejected as invalid. In above example, you are making use of `jwk-secret` which you will create in `api` namespace before creating this policy. (Feel free to inspect the `module4/jwk-secret.yaml` file)
 
 The `token` field specifies a variable that would hold the JSON Web Token in incoming request. By default the JWT is passed in the Authorization header as a Bearer Token. JWT may also be passed as a cookie or part of the quary string. In the example above, you define a request header field named `token` that contains the JWT.
 
@@ -52,9 +52,9 @@ Once the JWT policy has been created the next step is to enable this policy to t
 1. Apply policy to all routes. (spec policies)
 2. Apply policy to a specific route. (route policies)
 
-As part of this workshop, you will apply the policy to a specific route (Animals API). For more information on how to apply policies to all routes look into the link in the [References](#references) section.
+As part of this workshop, you will apply the policy to a specific route (Animals API). For more information on how to apply policies to all routes look into the link in the References section.
 
-Inspect the `module4/api-runtimes-vs-with-jwt.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the jwt policy to restrict the usage of Animals API. (See highlighted section in the screenshot below)
+Inspect the `module4/api-runtimes-vs-with-jwt.yaml` file. This file modifies the `apis` VirtualServer object from module 1 and applies the jwt policy to restrict the usage of Animals API. (See highlighted section in the screenshot below)
 
 ![API VS JWT](media/module4_api-vs-jwt.png)
 
@@ -110,7 +110,7 @@ curl -i http://api.example.com/api/v1/animals -H "token: `cat module4/token.jwt`
 
 As part of the second curl command, you are adding a key named `token` in the request header. This key stores a valid jwt token and is passed with the request.
 
-Please look into the [References](#references) section for more information on JWT custom policy. 
+Please look into the References section for more information on JWT custom policy. 
 
 Before moving to the next module run the below command so that we cleanup the objects that we created in this module.
 
