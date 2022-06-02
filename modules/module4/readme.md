@@ -54,7 +54,7 @@ Once the JWT policy has been created the next step is to enable this policy to t
 
 As part of this workshop, you will apply the policy to a specific route (Animals API). For more information on how to apply policies to all routes look into the link in the References section.
 
-Inspect the `module4/api-runtimes-vs-with-jwt.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the jwt policy to restrict the usage of Animals API. (See highlighted section in the screenshot below)
+Inspect the `module4/api-runtimes-vs-with-jwt.yaml` file. This file modifies the `apis` VirtualServer object from module 1 and applies the jwt policy to restrict the usage of Animals API. (See highlighted section in the screenshot below)
 
 ![API VS JWT](media/module4_api-vs-jwt.png)
 
