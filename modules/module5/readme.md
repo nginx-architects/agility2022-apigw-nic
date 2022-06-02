@@ -99,12 +99,13 @@ curl -iX POST --insecure -d 'apple' api.example.com/api/v1/colors
 ![curl request2](media/curl.png)
 
 
-Please look into the [References](#references) section for more information on JWT custom policy. 
+Please look into the References section for more information on JWT custom policy. 
 
 ## References:
-https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies
+- [App Protect Policy Doc](https://docs.nginx.com/nginx-ingress-controller/app-protect/configuration/#app-protect-policies) 
+- [Various Ways of applying policies](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#applying-policies)
 
-https://docs.nginx.com/nginx-ingress-controller/app-protect/configuration/#app-protect-policies 
+
 
 
 -------------
