@@ -2,7 +2,7 @@
 
 ## Restricting access by applying Rate Limits on API
 
-Once the APIs start becoming feature rich, the next aspect that you need to focus on is how to secure these APIs. The most comman way of restricting your APIs from getting a flood of request is to enable rate limiting. With NGINX Plus Ingress Controller(NIC) you can enable rate limiting by creating a custom policy and then applying the policy to the custom Virtual Server resource that we discussed in previous section.   
+Once the APIs start becoming feature rich, the next aspect that you need to focus on is how to secure these APIs. The most comman way of restricting your APIs from getting a flood of request is to enable rate limiting. With NGINX Plus Ingress Controller(NIC) you can enable rate limiting by creating a custom policy and then applying the policy to the custom Virtual Server resource that was discussed in previous section.   
 
 In this module you will learn:
 
@@ -46,7 +46,7 @@ Once the rate limit policy has been created the next part would be to enable thi
 
 As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the References section.
 
-Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the rate limit policy to restrict the usage of Colors API. (See highlighted section in the screenshot below)
+Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. This file modifies the `apis` VirtualServer object from module 1 and applies the rate limit policy to restrict the usage of Colors API. (See highlighted section in the screenshot below)
 
 ![API VS ratelimit](media/module3_api_vs_ratelimit.png)
 
