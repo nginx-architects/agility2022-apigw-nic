@@ -22,10 +22,10 @@ As per the diagram, you will be working with a three node cluster consisting of 
 
 The NGINX Ingress Controller (NIC) is deployed into the nginx-ingress namespace.  A couple of things to note in the deployment spec:  
 
-1. spec.template.spec.containers.image references the pre-built private container registry that you can use in both a Trial of the NIC or as a paying subscriber.  You can also build your own container if needed.  
+1. `spec.template.spec.containers.image` references the pre-built private container registry that you can use in both a trial of the NIC or as a paying subscriber.  You can also build your own container if needed.  
 ![Deployment Image](media/deploy-image.png)
 
-2. spec.template.spec.containers.args contain a number of optional command line arguments that can be used to enable features or control other properties of the NIC.  
+2. `spec.template.spec.containers.args` contain a number of optional command line arguments that can be used to enable features or control other properties of the NIC.  
 ![Command Line Args](media/deploy-cmd-args.png)
 
 
@@ -37,19 +37,21 @@ The cluster has an external NGINX+ load balancer.  Its purpose is to load balanc
 
 ## 2. Jumphost Orientation
 
-In this lab you will be working from a Windows Jumphost.  If you are reading this then you have successfully logged into the Jumphost.  
+In this lab you will be working from a Windows Jumphost.  If you are reading this then it's likely you have successfully logged into the Jumphost.  
 
-The two other tools you will need to complete the modules in this lab are VSCode and Postman.  VSCode is an IDE that lets you view all of the configuration files (YAML's) in the modules.  You will primarily use the integrated terminal in VSCode.  The terminal runs a bash shell and is configured to run `kubectl` commands.  
+The two other applications you will need to complete the modules in this lab are `VSCode` and `Postman`.  VSCode is an IDE that lets you view all of the configuration files (YAML's) in the modules.  You will primarily use the integrated terminal in VSCode.  The terminal runs a `bash` shell and is configured to run `kubectl` commands (see References below if you aren't familiar with kubectl).  
 
 Verify that VSCode is running and that it is displaying a terminal in the lower right of its window.  Here is an example:
 
 ![VSCode](media/vscode-ss.png)
 
-If it is not running then launch it by double clicking the shortcut on the desktop. This is what it looks like:
+If VSCode is not running then launch it by double clicking the shortcut on the desktop. This is what it looks like:
 
 ![VSCode Icon](media/vsc-shortcut.png)
 
-The second tool you will need is Postman.  Postman is a graphical tool for sending HTTP requests and viewing the results of those requests.  If it is not already running then start it either by clicking on its icon in the taskbar or on the shortcut on the desktop.  
+If the terminal is not open in the VSCode window then open a new one using the Terminal menu -> New Terminal menu item.  
+
+The second tool you will need is Postman.  Postman is a graphical tool for sending HTTP and gRPC requests and viewing the results of those requests.  If it is not already running then start it either by clicking on its icon in the taskbar or on the shortcut on the desktop.  
 
 ![PostMan Icon](media/postman-icon.png)
 
@@ -63,7 +65,7 @@ Start by running the following command to display the components of the NIC:
 kubectl get svc,po,deploy -n nginx-ingress
 ```
 
-In the output of this command you will see information displayed on the services, pods and deployment in the nginx-ingress namespace where the NIC is installed.  Compare this to the overall architecture diagram in Step 1.
+In the output of this command you will see information displayed on the services, pods and deployment in the `nginx-ingress` namespace where the NIC is installed.  Compare this to the overall architecture diagram in Step 1.
 
 In a similar way, view the "api" namespace from the command line by executing the following:
 
@@ -78,11 +80,13 @@ You may have noticed that unlike the diagram in Step 1, there is only a single N
 ```bash
 kubectl scale deploy -n nginx-ingress nginx-ingress --replicas=3
 ```
+
 Verify that the command worked by running the following command:
 
 ```bash
 kubectl get po -n nginx-ingress
 ```
+
 You should now see 3 pods listed in the output of this command.  
 
 *Note:  In an actual production deployment you would enable Horizontal Pod Autoscaling to automatically adjust the pod count (replicas) in the deployment based on the traffic load.  That exercise is beyond the scope of this lab.*  
@@ -125,6 +129,8 @@ Now return to Postman to resend the API request to the colors endpoint.  You sho
 
 ## References:
 [VirtualService Resource Documentation](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
+
+[Kubectl Reference](https://kubernetes.io/docs/reference/kubectl/)
 
 -------------
 

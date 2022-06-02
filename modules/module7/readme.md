@@ -48,7 +48,7 @@ message EchoResponse {
 
 This service definition along with the its associated code, language-specific runtime libraries and serialization format create what is known as the "protocol buffer".  
 
-In this module we will be enable our Ingress Controller to proxy, route and load balance gRPC requests to our simple gRPC applications.  
+In this module we will enable our Ingress Controller to proxy, route and load balance gRPC requests to our simple gRPC applications.  
 
 A quick look at the architecture:  
 
@@ -64,8 +64,8 @@ Begin by inspecting the following VirtualServer (VS) manifest.
 
 Two items to notice:
 
-1. Since gRPC relies on HTTP2, TLS is required so you need a secret containing the cert and key to support this.
-2. The path that is created in the request is related to the .proto file we looked at in section 2.  The general form is /package.service/rpc-method
+1. You will be sending client requests using TLS so you need to create a Kubernetes secret containing the cert and key to apply to NGINX.  
+2. The path that is created in the request is related to the .proto file we looked at in section 2.  The exact format of the request  is /package.service/rpc-method.  A prefix of `/package.` could also be used.  
 
 Begin by creating the TLS secret in the api namespace with the following command:
 
