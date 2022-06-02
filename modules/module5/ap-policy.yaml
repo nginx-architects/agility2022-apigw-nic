@@ -2,16 +2,17 @@ apiVersion: appprotect.f5.com/v1beta1
 kind: APPolicy
 metadata:
   name: dataguard-alarm
+  namespace: api
 spec:
   policy:
     signature-requirements:
-    - tag: Fruits
+    - tag: BannedColor
     signature-sets:
-    - name: apple_sigs
+    - name: bannedcolor_sigs
       block: true
       signatureSet:
         filter:
-          tagValue: Fruits
+          tagValue: BannedColor
           tagFilter: eq
     applicationLanguage: utf-8
     blocking-settings:
