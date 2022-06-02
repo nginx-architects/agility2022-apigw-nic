@@ -11,19 +11,17 @@ In this module you will learn:
 
 ## 1. Create an App Protect Policy
 
-In this step you will look into a custom policy that enables APP Protect Policy for the colors API.
+In this step you will apply a custom policy that enables NGINX App Protect Policy for the colors API.
 
-Inspect the module5/ap-policy.yaml file.
-This is where we define our App Protect policy.
+Inspect the module5/ap-policy.yaml file. This is where we define our App Protect policy custom resource. Notice towards the bottom of the spec we reference the NGINX base template this is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an open api spec file or OAS for short, (https://gitlab.com/sentence-app/adjectives/-/raw/main/oas-adjectives-v0.1.yaml). We can use this for a very accurate policy for protecting these APIs. 
 
-Inspect the module5/ap-logconf.yaml file.
-This is where we define our App Protect logging.
+Inspect the module5/ap-logconf.yaml file. This is where we define our App Protect logging. The spec consists of two parts, filter: which requests are to be logged and content: how the message is formatted. 
 
-Inspect the module5/waf.yaml file.
-This is where we specify the above files.
+Inspect the module5/syslog.yaml file. This is where we create a sys log deployment and service.
 
-Inspect the module5/ap-uds.yaml file.
-This is where we define our App Protect User Defined Signatures.
+Inspect the module5/waf.yaml file. This is where we specify the above manifest files.
+
+Inspect the module5/ap-uds.yaml file. This is where we define our App Protect User Defined Signatures. This allows us to develop custom attack signatures,for our environment. The signatures that you define are stored in the attack signatures pool along with the system-supplied signatures.
 
 
 ## 2. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
@@ -52,12 +50,11 @@ As part of testing, based on your preference, you can either use postman tool or
 To test apply the App Protect and assosicated manifests. 
 
 ```bash
-    kubectl apply -f module5/waf.yaml
+    kubectl apply -f module5/syslog.yaml
     kubectl apply -f module5/ap-policy.yaml
     kubectl apply -f module5/ap-logconf.yaml
     kubectl apply -f module5/ap-uds.yaml
-    kubectl apply -f module5/syslog.yaml
-    kubectl apply -f module5/webapp-secret.yaml
+    kubectl apply -f module5/waf.yaml
     kubectl apply -f module5/webapp.yaml
 ```
 
@@ -106,6 +103,9 @@ https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#a
 
 https://docs.nginx.com/nginx-ingress-controller/app-protect/configuration/#app-protect-policies 
 
+https://docs.nginx.com/nginx-app-protect/configuration-guide/configuration/
+
+https://docs.nginx.com/nginx-app-protect/declarative-policy/policy/ 
 
 -------------
 

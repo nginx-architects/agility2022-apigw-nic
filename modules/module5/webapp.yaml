@@ -5,8 +5,6 @@ metadata:
   namespace: api
 spec:
   host: api.example.com
-  tls:
-    secret: webapp-secret
   upstreams:
   - name: generator
     service: generator
