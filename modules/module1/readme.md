@@ -97,7 +97,7 @@ Switch to the Postman application in the Jumphost.  In the "Collection on the le
 
 ![Postman Collections](media/postman-collections.png)
 
-Note that we are sending a GET request to the URL `api.example.com/api/v1/colors`.  Send this request by clicking the "Send" button to the right.  
+Note that you are sending a GET request to the URL `api.example.com/api/v1/colors`.  Send this request by clicking the "Send" button to the right.  
 
 ![Get /colors](media/postman-get-colors.png)
 
