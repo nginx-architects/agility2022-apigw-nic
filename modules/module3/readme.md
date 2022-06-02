@@ -2,7 +2,7 @@
 
 ## Restricting access by applying Rate Limits on API
 
-Once the APIs start becoming feature rich, the next aspect that you need to focus on is how to secure these APIs. The most comman way of restricting your APIs from getting a flood of request is to enable rate limiting. With NGINX Plus Ingress Controller(NIC) you can enable rate limiting by creating a custom policy and then applying the policy to the custom Virtual Server resource that we discussed in previous section.   
+Once the APIs start becoming feature rich, the next aspect that you need to focus on is how to secure these APIs. The most comman way of restricting your APIs from getting a flood of request is to enable rate limiting. With NGINX Plus Ingress Controller(NIC) you can enable rate limiting by creating a custom policy and then applying the policy to the custom Virtual Server resource that was discussed in previous section.   
 
 In this module you will learn:
 
@@ -44,9 +44,9 @@ Once the rate limit policy has been created the next part would be to enable thi
 1. Apply policy to all routes. (spec policies)
 2. Apply policy to a specific route. (route policies)
 
-As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the [References](#references) section.
+As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the References section.
 
-Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. We modified the `apis` VirtualServer object from module 1 and applied the rate limit policy to restrict the usage of Colors API. (See highlighted section in the screenshot below)
+Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. This file modifies the `apis` VirtualServer object from module 1 and applies the rate limit policy to restrict the usage of Colors API. (See highlighted section in the screenshot below)
 
 ![API VS ratelimit](media/module3_api_vs_ratelimit.png)
 
@@ -108,7 +108,7 @@ for i in {1..20}; do curl -Is http://api.example.com/api/v1/colors | grep "HTTP"
 
 You will notice that the output now is a mix of `200` and `429` response status code. You successfully updated the rate-limit policy to return `429` reject code instead of the default generic `503` reject code.
 
-Please look into the [References](#references) section for more information on additional fields that can be used with rate limit custom policy.
+Please look into the References section for more information on additional fields that can be used with rate limit custom policy.
 
 ## References
 
