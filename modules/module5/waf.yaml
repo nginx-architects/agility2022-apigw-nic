@@ -6,8 +6,8 @@ metadata:
 spec:
   waf:
    enable: true
-   apPolicy: "default/dataguard-alarm"
+   apPolicy: "api/dataguard-alarm"
    securityLog:
       enable: true
-      apLogConf: "default/logconf"
+      apLogConf: "api/logconf"
       logDest: "syslog:server=syslog-svc.default:514"

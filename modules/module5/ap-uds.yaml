@@ -1,7 +1,8 @@
 apiVersion: appprotect.f5.com/v1beta1
 kind: APUserSig
 metadata:
-  name: apple
+  name: apple-usersig
+  namespace: api
 spec:
   signatures:
   - accuracy: medium
