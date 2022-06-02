@@ -6,13 +6,13 @@ metadata:
 spec:
   policy:
     signature-requirements:
-    - tag: Fruits
+    - tag: BannedColor
     signature-sets:
-    - name: apple_sigs
+    - name: bannedcolor_sigs
       block: true
       signatureSet:
         filter:
-          tagValue: Fruits
+          tagValue: BannedColor
           tagFilter: eq
     applicationLanguage: utf-8
     blocking-settings:
