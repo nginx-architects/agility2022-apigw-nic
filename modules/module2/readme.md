@@ -2,14 +2,14 @@
 
 ## Layer 7 Request Routing and API Versioning
 
-As API's mature and developers continue to add features and functionality, it is oftentimes necessary to create new versions of those API's.  API versioning is accomplished in various ways.  Most commonly it is achieved by modifying the URL path so that `/api/v1/colors` becomes `/api/v2/colors`.  Alternative approaches include using a header value, e.g. `Version=1.0` or by using query parameters, e.g. `/api/colors?version=1.0`.  In this module will focus on implementing versions through paths with the VirtualServerRoute (VSR) resource.  
+As API's mature and developers continue to add features and functionality, it is oftentimes necessary to create new versions of those API's.  API versioning is accomplished in various ways.  Most commonly it is achieved by modifying the URL path so that `/api/v1/colors` becomes `/api/v2/colors`.  Alternative approaches include using a header value, e.g. `Version=1.0` or by using query parameters, e.g. `/api/colors?version=1.0`.  This module will focus on implementing versions through paths with the VirtualServerRoute (VSR) resource.  
 
 In this module you will learn:
 
 1. The VirtualServerRoute custom resource 
 2. Cross namespace Path-Based Routing Using VirtualServerRoute
 
-In the previous module you enabled traffic routing from outside the cluster to the API runtimes inside the cluster running in the api namespace.  In this module you will enable access to new versions of the API endpoints, v2, running in the apiv2 namespace.  Separating development efforts into dedicated namespaces is a good way to prevent accidental modifications to existing code.  It can also be used to enable RBAC or even Network Policy constraints.  
+In the previous module you enabled traffic routing from outside the cluster to the API runtimes inside the cluster running in the `api` namespace.  In this module you will enable access to new versions of the API endpoints, v2, running in the apiv2 namespace.  Separating development efforts into dedicated namespaces is a good way to prevent accidental modifications to existing code.  It can also be used to enable RBAC or even Network Policy constraints.  
 
 ## 1. Background on VirtualServerRoute (VSR)  
 
@@ -28,7 +28,7 @@ The VSR looks very much like the VS that you saw in Module 1.  One difference yo
 Note that there are two requirements in creating the VSR.  
 
 1. The VSR must have the same `spec.host` value as the VS 
-2. The `vsr.subroute.path` must be an extension of the `vs.spec.routes.path`.  As an example, in this case you have:
+2. The `vsr.spec.subroutes.path` must be an extension of the `vs.spec.routes.path`.  As an example, in this case you have:
 
 ```yaml
 vs.spec.routes.path = /api/v1
@@ -37,7 +37,7 @@ vs.spec.routes.path = /api/v1
 and
 
 ```yaml
-vsr.subroute.path = /api/v1/locations
+vsr.spec.subroutes.path = /api/v1/locations
 ```
 
 This is what it looks like in the VS and VSR manifest files:

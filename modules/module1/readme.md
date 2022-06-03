@@ -10,6 +10,7 @@ By the end of this module you will:
 2. Become familiar with the tools on the Windows Jumphost
 3. Understand how to run commands to both view and make changes to the lab environment
 4. Understand how to verify your work by sending traffic to the Kubernetes cluster
+5. Learn about the NGINX VirtualServer CRD
 
 
 ## 1. Lab Environment Architecture
@@ -20,7 +21,7 @@ Let's begin by taking a look at the overall architecture of the lab environment.
 
 As per the diagram, you will be working with a three node cluster consisting of one control-plane node and two workers.  
 
-The NGINX Ingress Controller (NIC) is deployed into the nginx-ingress namespace.  A couple of things to note in the deployment spec:  
+The NGINX Ingress Controller (NIC) is deployed into the `nginx-ingress` namespace.  A couple of things to note in the deployment spec:  
 
 1. `spec.template.spec.containers.image` references the pre-built private container registry that you can use in both a trial of the NIC or as a paying subscriber.  You can also build your own container if needed.  
 ![Deployment Image](media/deploy-image.png)
@@ -41,7 +42,7 @@ In this lab you will be working from a Windows Jumphost.  If you are reading thi
 
 The two other applications you will need to complete the modules in this lab are `VSCode` and `Postman`.  VSCode is an IDE that lets you view all of the configuration files (YAML's) in the modules.  You will primarily use the integrated terminal in VSCode.  The terminal runs a `bash` shell and is configured to run `kubectl` commands (see References below if you aren't familiar with kubectl).  
 
-Verify that VSCode is running and that it is displaying a terminal in the lower right of its window.  Here is an example:
+Verify that VSCode is running and that it is displaying a terminal in the lower right of its window.  Here is what it looks like:
 
 ![VSCode](media/vscode-ss.png)
 
@@ -49,7 +50,7 @@ If VSCode is not running then launch it by double clicking the shortcut on the d
 
 ![VSCode Icon](media/vsc-shortcut.png)
 
-If the terminal is not open in the VSCode window then open a new one using the Terminal menu -> New Terminal menu item.  
+If the terminal is not open in the VSCode window then open a new one using the Terminal menu -> New Terminal menu item.  If your VSCode has a Powershell terminal open, close it and open a Bash shell instead.  *You should run all of the commands in this workshop in a Bash terminal.*  
 
 The second tool you will need is Postman.  Postman is a graphical tool for sending HTTP and gRPC requests and viewing the results of those requests.  If it is not already running then start it either by clicking on its icon in the taskbar or on the shortcut on the desktop.  
 
@@ -107,9 +108,42 @@ Switch to the VSCode application in your Jumphost.  In the upper left, navigate 
 
 ![API Runtime VS](media/vscode-api-vs.png)
 
-This is the manifest you will use to configure the NIC to support requests for http://api.example.com.  This manifest creates a VirtualServer resource.  VirtualServer is a "Custom Resource" (CRD) developed by NGINX.  It is one of a number of CRD's that have been developed by NGINX as an alternative to the standard Ingress Resource.  The CRD's provide easier access to the full functionality of the underlying NGINX+ load balancer.  Can you still use the standard Ingress Resource with the NGINX Inc. Ingress Controller?  Yes, in fact, you can deploy both simultaneously, a helpful capability for migrating from Ingress to CRD's.  
+This is the manifest you will use to configure the NIC to support requests for http://api.example.com.  This manifest creates a VirtualServer resource.  VirtualServer (VS) is a "Custom Resource" (CRD) developed by NGINX.  It is one of a number of CRD's that have been developed by NGINX as an alternative to the standard Ingress Resource.  The CRD's provide easier access to the full functionality of the underlying NGINX+ load balancer.  Can you still use the standard Ingress Resource with the NGINX Inc. Ingress Controller?  Yes, in fact, you can deploy both simultaneously, a helpful capability for migrating from Ingress to CRD's.  
 
-Inspect the manifest to get comfortable with the structure of the VirtualServer (VS).  You can read more about the VS by following the link in the References section.  
+Inspect the manifest to get comfortable with the structure of the VirtualServer (VS).  
+
+A few items to note:
+
+![VS Spec](media/vs-spec.png)
+
+1. `vs.metadata.namespace` is set to `api`, meaning that the VS will be created in the `api` namespace.  In general, you will create the VS in the namespace of the application and not in the namespace of the NIC.
+2. `vs.spec.host` is the FQDN that NIC will use to match the request.  It uses the `HOST` header in the request to match this value.  A big reason to use an Ingress Controller is that it supports any number of host names.  Then you just need to have your FQDN's resolve to the L4 load balancer in front of the cluster.  
+
+![VS Routes](media/vs-spec-routes.png)
+
+1. `vs.spec.routes` is an array of maps that define the URL paths associated with api.example.com.  
+2. `vs.spec.routes.path` can use either a prefix match as in the `locations` example or an exact match to a path as designated with an `=` preceeding the path as with the `generator` example.  
+3. Depending on which path is matched, the corresponding action will be taken which in this example is to `pass` to an `upstream`.  
+
+![VS Upstreams](media/vs-spec-upstreams.png)
+
+`vs.spec.upstreams` is an array of maps that refer to the Kubernetes services that front the pods we want to proxy the traffic to.  Note that NGINX does not deliver the traffic through the service to the pods, but rather, uses the service's endpoints as a means to track the pods of an application's deployment.  NGINX will directly access the pods in the cluster to deliver requests and receive application responses.  
+
+Because the NGINX CRD's are "first class Kubernetes citizens", you can explore the VS CRD further with the `explain` sub-command to `kubectl`.  
+
+For example, try out the following in the VSCode terminal:
+
+```bash
+kubectl explain vs
+```
+
+or
+
+```bash
+kubectl explain vs.spec.routes.action
+```
+
+You can also read more about the VS by following the link in the References section.  
 
 Apply the manifest with the following command:
 
