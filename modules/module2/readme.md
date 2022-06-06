@@ -44,7 +44,7 @@ This is what it looks like in the VS and VSR manifest files:
 
 ![VSR Reference](media/vs-2-vsr-2.png)
 
-## 2. VirtualServerRoute (VSR)
+## 2. Putting VirtualServerRoute into Action
 
 In this step you will apply a new VirtualServer manifest and create two VirtualServerRoute resources with new manifests, one for each version of your API.  
 
