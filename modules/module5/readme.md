@@ -1,19 +1,31 @@
 # Module 5: 
 
-## Protecting APIs by using NGINX APP Protect 
+## Protecting APIs using NGINX APP Protect 
 
-In the last module you protected your API from unwanted actors by enabling JWT authentication to your APIs. In this module you will protect your API against L7 attacks by enabling NGINX APP Protect WAF. With NGINX Plus Ingress Controller(NIC) you can enable NGINX APP Protect by creating a custom policy and then applying the policy to the custom Virtual Server resource that you worked on in previous modules.  
+In the last module you protected your API from unwanted actors by enabling JWT authentication to your APIs. In this module you will protect your API against L7 attacks by enabling NGINX APP Protect (NAP) WAF. With NGINX Plus Ingress Controller (NIC) you can enable NGINX APP Protect by creating a custom policy and then applying the policy to the custom Virtual Server resource that you worked on in previous modules.  
 
 In this module you will learn:
 
-1. How to create a custom NGINX APP Protect policy. 
-2. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
+1. The CRD's involved in applying and customizing NAP for the NIC
+2. How to create a custom NGINX APP Protect policy. 
+3. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
 
-## 1. Create an App Protect Policy
+## 1. CRD's to Enable and Customize NAP for the NIC
+
+The following diagram shows the CRD's involved in enabling and customizing NAP:  
+
+![NAP CRD Diagram](media/nap-k8s-objects.png)
+
+1. The VirtualServer resource refers to a Policy resource in the same way that you have already seen for modules 3 and 4.
+2. The Policy resource for NAP is of type `waf`.  In the prior modules you worked with policies of type `jwt` and `rateLimit`.  
+3. The `waf` policy type refers to two new CRD's, namely, APPolicy and APLogConf.  APPolicy is where you define your WAF rules.  NAP provides an "out of the box" set of rules that can be customized in various ways.  APLogConf configures NAP logging.  In this module you will deploy a syslog pod to act as the log repository.
+4. One way of customizing the NAP rules is by referencing an OAS spec to create a very specific NAP policy. This NAP policy will ensure that any request to the API endpoint complies with the OAS or it will be blocked by NAP. This policy is in addition to the F5/NGINX provided policies.  
+ 
+## 2. Create an App Protect Policy
 
 In this step you will apply a custom policy that enables NGINX App Protect Policy for the colors API.
 
-Inspect the `module5/ap-policy.yaml`file. This is where we define our App Protect policy custom resource. Notice towards the bottom of the spec we reference the NGINX base template this is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an open api spec file or OAS for short, (https://gitlab.com/sentence-app/adjectives/-/raw/main/oas-adjectives-v0.1.yaml). We can use this for a very accurate policy for protecting these APIs. 
+Inspect the `module5/ap-policy.yaml` file. This is where we define our App Protect policy custom resource. Notice towards the bottom of the spec we reference the NGINX base template this is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an open api spec file or OAS for short, (https://gitlab.com/sentence-app/adjectives/-/raw/main/oas-adjectives-v0.1.yaml). We can use this for a very accurate policy for protecting these APIs. 
 
 Now lets apply the manifest 
 
@@ -53,7 +65,7 @@ Now lets apply the manifest.
     kubectl apply -f module5/ap-uds.yaml
 ```
 
-## 2. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
+## 3. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
 
 Once the App Protect policy has been created the next step is to enable this policy to the APIs by modifying the VirtualServer object. This process is the same as applying the JWT policy that you saw in the last section. You can perform this task two ways.
 
