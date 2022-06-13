@@ -7,8 +7,8 @@ In the last module you protected your API from unwanted actors by enabling JWT a
 In this module you will learn:
 
 1. The CRD's involved in applying and customizing NAP for the NIC
-2. How to create a custom NGINX APP Protect policy. 
-3. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
+2. How to create an NGINX APP Protect policy customized to an API 
+3. How to modify the VirtualServer object to enable NGINX APP Protect policy on an API
 
 ## 1. CRD's to Enable and Customize NAP for the NIC
 
@@ -31,12 +31,13 @@ Inspect the `module5/ap-policy-api.yaml` file.
 
 Some items to note:  
 
-1. This is where we define our App Protect policy custom resource. `spec.policy.template` references the NGINX base template. This is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. 
-2. `spec.policy.blocking-settings.violations` are an array of API specific signatures that can block if the request does not match the OpenAPI Spec.
+1. This is where we define our App Protect policy custom resource. 
+2. `spec.policy.template` references the NGINX base template. This is the common starting point to any policy you write. We also set this policy in a blocking enforcement mode, meaning any illegal or suspicious requests are logged and blocked. 
+3. `spec.policy.blocking-settings.violations` are an array of API specific signatures that can block if the request does not match the OpenAPI Spec.
 
 ![OAS Reference](media/oas-reference.png)
 
-3. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an open api spec file or OAS for short, (http://colors-spec-svc.spec/oas-colors-v.01.yaml).  We can use this for a very accurate policy for protecting these APIs.
+4. App Protect allows you to reference a file on an external http server or locally on the file system of the NGINX instance. Notice how we reference an OpenAPI Spec file or OAS for short, (http://colors-spec-svc.spec/oas-colors-v.01.yaml).  We can use this for a very accurate policy for protecting these APIs.
 
 Now lets apply the manifest and create the APPolicy resource:
 
@@ -52,7 +53,7 @@ Now lets apply the manifest and create the APLogConf resource:
     kubectl apply -f module5/ap-logconf.yaml
 ```
 
-Inspect the `module5/syslog.yaml`file. We stream our NAP logs into this syslog deployment.
+Inspect the `module5/syslog.yaml` file. We stream our NAP logs into this syslog deployment.
 
 Now lets apply the manifest.
 
@@ -60,7 +61,7 @@ Now lets apply the manifest.
     kubectl apply -f module5/syslog.yaml
 ```
 
-Inspect the `module5/waf-policy.yaml`file. This creates the new Policy object that specifies the above manifest files.
+Inspect the `module5/waf-policy.yaml` file. This creates the new Policy object that specifies the above manifest files.
 
 Now lets apply the manifest.
 
@@ -105,7 +106,7 @@ Now select the "Colors Invalid POST" call.  Note that the request payload contai
 
 ![Invalid Response](media/invalid-response.png)
 
-You should have received a 403 Unauthorized response with a response body containing a Support ID in JSON format.  This is the standard NAP response body.  The Support ID can be used to find the policy that was violated in the NAP logs.  
+You should have received a 403 Forbidden response with a response body containing a Support ID in JSON format.  This is the standard NAP response body.  The Support ID can be used to find the policy that was violated in the NAP logs.  
 
 Finally, select the "Colors XSS API Call" in Postman.  Note the request URL.  This request sends what looks like a Cross Site Scripting attack.  This is one of the standard OWASP Top 10 attacks against web applications.  It is one of the policies that you enabled with the NGINX Base Template we saw referenced in the APPolicy manifest.  You should see the same type of response as with the Invalid POST in the previous step.  
 
