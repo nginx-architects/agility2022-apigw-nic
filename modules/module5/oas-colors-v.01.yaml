@@ -4,7 +4,7 @@ info:
   description: list of colors
   version: '0.1'
 servers:
-  - url: 'http://api/v1/colors:8080'
+  - url: 'http://api.example.com/api/v1'
 paths:
   /colors:
     get:
@@ -19,7 +19,7 @@ paths:
                 $ref: "#/components/schemas/Colors"
               #examples: {"adjectives": [{"id":1,"name":"blue"}]}
       servers:
-        - url: 'http://api/v1/colors:8080'
+        - url: 'http://api.example.com/api/v1'
     post:
       description: create a color
       operationId: createColor
@@ -47,7 +47,7 @@ paths:
                 type: string
               examples: {}
       servers:
-        - url: 'http://api/v1/colors:8080'
+        - url: 'http://api.example.com/api/v1'
     delete:
       description: delete a color
       operationId: deleteColor
@@ -60,9 +60,9 @@ paths:
                 type: string
               examples: {}
       servers:
-        - url: 'http://api/v1/colors:8080'
+        - url: 'http://api.example.com/api/v1'
     servers:
-      - url: 'http://api/v1/colors:8080'
+      - url: 'http://api.example.com/api/v1'
   /colors/{id}:
     get:
       description: get a specific color
@@ -83,7 +83,7 @@ paths:
                 $ref: "#/components/schemas/Color"
               # examples: {"adjectives": [{"id":1,"name":"blue"}]}
       servers:
-        - url: 'http://api/v1/colors:8080'
+        - url: 'http://api.example.com/api/v1'
         
 components:
   schemas:
