@@ -54,7 +54,7 @@ spec:
       - block: true
         description: Parameter value does not comply with regular expression
         name: VIOL_PARAMETER_VALUE_REGEXP
-      - block: false
+      - block: true
         description: Illegal URL
         name: VIOL_URL
       - block: true
