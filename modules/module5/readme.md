@@ -25,7 +25,7 @@ The following diagram shows the CRD's involved in enabling and customizing NAP a
 
 In this step you will apply a custom policy that enables NGINX App Protect Policy for the colors API.
 
-Inspect the `module5/ap-policy-api.yaml` file.
+Inspect the `module5/ap-policy-api.yaml` file.  The following is an excerpt to highlight key areas:  
 
 ![apPolicy](media/appolicy.png)
 
@@ -45,7 +45,7 @@ Now lets apply the manifest and create the APPolicy resource:
     kubectl apply -f module5/ap-policy-api.yaml
 ```
 
-Inspect the `module5/ap-logconf.yaml`file. This is where we define our App Protect logging. The spec consists of two parts, filter: which requests are to be logged and content: how the message is formatted. 
+Inspect the `module5/ap-logconf.yaml` file. This is where we define our App Protect logging. The spec consists of two parts, filter: which requests are to be logged and content: how the message is formatted. 
 
 Now lets apply the manifest and create the APLogConf resource:
 
@@ -69,7 +69,7 @@ Now lets apply the manifest.
     kubectl apply -f module5/waf-policy.yaml
 ```
 
-## 3. How to modify the VirtualServer object to enable NGINX APP Protect policy on your set of APIs
+## 3. Modify the VirtualServer object to enable NGINX APP Protect policy and test
 
 Once the App Protect policy has been created the next step is to enable this policy to the APIs by modifying the VirtualServer object. This process is the same as applying the JWT policy that you saw in the last module. You can perform this task two ways.
 
@@ -78,7 +78,7 @@ Once the App Protect policy has been created the next step is to enable this pol
 
 As part of this workshop, you will apply the policy to a specific route (Colors API). For more information on how to apply policies to all routes look into the link in the References section.
 
-Inspect the `module5/api-runtimes-vs-with-waf.yaml` file. This file modifies the `apis` VirtualServer object from module 1 and applies the App Protect policy, "waf-policy", to block attacks against the Colors API.
+Inspect the `module5/api-runtimes-vs-with-waf.yaml` file. This file modifies the `apis` VirtualServer object from Module 1 and applies the App Protect policy, "waf-policy", to block attacks against the Colors API.
 
 Run the following command to update the existing `apis` VirtualServer object with the App Protect policy and associated manifests.
 
@@ -102,7 +102,7 @@ Click Send. You should see a 201 response code in accordance with the OAS. The r
 
 ![Valid Response](media/valid-response.png)
 
-Now select the "Colors Invalid POST" call.  Note that the request payload contains a number of invalid elements such as incorrect data types, malformed JSON (missing comma) and invalid parameter.  Click the "Send" button and observe the response.  
+Now select the "Colors Invalid POST" call in Postman.  Note that the request payload contains a number of invalid elements such as incorrect data types, malformed JSON (missing comma) and invalid parameter.  Click the "Send" button and observe the response.  
 
 ![Invalid Response](media/invalid-response.png)
 
