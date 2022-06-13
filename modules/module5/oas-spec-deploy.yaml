@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oas-spec-deploy
+  namespace: spec
+  labels:
+    app: oas-spec
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oas-spec
+  template:
+    metadata:
+      labels:
+        app: oas-spec
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: colors-spec
+          mountPath: "/usr/share/nginx/html"
+          readOnly: true
+      volumes:
+      - name: colors-spec
+        configMap:
+          name: colors-oas-spec
