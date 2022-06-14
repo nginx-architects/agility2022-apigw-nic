@@ -61,7 +61,7 @@ Inspect the `module4/api-runtimes-vs-with-jwt.yaml` file. This file modifies the
 Run the following command to update the existing `apis` VirtualServer object with the new changes
 
 ```bash
-    kubectl apply -f module4/api-runtimes-vs-with-jwt.yaml
+kubectl apply -f module4/api-runtimes-vs-with-jwt.yaml
 ```
 
 ![API VS apply](media/module4_api_vs_apply.png)

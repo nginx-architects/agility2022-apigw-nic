@@ -42,7 +42,7 @@ Some items to note:
 Now lets apply the manifest and create the APPolicy resource:
 
 ```bash
-    kubectl apply -f module5/ap-policy-api.yaml
+kubectl apply -f module5/ap-policy-api.yaml
 ```
 
 Inspect the `module5/ap-logconf.yaml` file. This is where we define our App Protect logging. The spec consists of two parts, filter: which requests are to be logged and content: how the message is formatted. 
@@ -50,7 +50,7 @@ Inspect the `module5/ap-logconf.yaml` file. This is where we define our App Prot
 Now lets apply the manifest and create the APLogConf resource:
 
 ```bash
-    kubectl apply -f module5/ap-logconf.yaml
+kubectl apply -f module5/ap-logconf.yaml
 ```
 
 Inspect the `module5/syslog.yaml` file. We stream our NAP logs into this syslog deployment.
@@ -58,7 +58,7 @@ Inspect the `module5/syslog.yaml` file. We stream our NAP logs into this syslog 
 Now lets apply the manifest.
 
 ```bash
-    kubectl apply -f module5/syslog.yaml
+kubectl apply -f module5/syslog.yaml
 ```
 
 Inspect the `module5/waf-policy.yaml` file. This creates the new Policy object that specifies the above manifest files.
@@ -66,7 +66,7 @@ Inspect the `module5/waf-policy.yaml` file. This creates the new Policy object t
 Now lets apply the manifest.
 
 ```bash
-    kubectl apply -f module5/waf-policy.yaml
+kubectl apply -f module5/waf-policy.yaml
 ```
 
 ## 3. Modify the VirtualServer object to enable NGINX APP Protect policy and test
@@ -83,7 +83,7 @@ Inspect the `module5/api-runtimes-vs-with-waf.yaml` file. This file modifies the
 Run the following command to update the existing `apis` VirtualServer object with the App Protect policy and associated manifests.
 
 ```bash
-    kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
+kubectl apply -f module5/api-runtimes-vs-with-waf.yaml
 ```
 
 Now lets test the API and see what responses you get when you access the Colors API with the App Protect Policy.

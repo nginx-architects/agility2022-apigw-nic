@@ -102,9 +102,13 @@ Access the Grafana dashboard by clicking the Grafana bookmark in the bookmark ba
 
 ![Grafana Tab](media/grafana-tab.png)
 
+If prompted, login with the "admin" user account, password is saved in browser.  
+
 Once the Grafana page is opened, you should see the "NGINX Plus Ingress Controller" dashboard:
 
 ![NIC Dashboard](media/dashboard-intro.png)
+
+**Note:  If you don't see the "NGINX Plus Ingress Controller" dashboard, click the Grafana icon in the upper left corner of the page and scroll down to the list of dashboards, then select it.
 
 Notice that immediately under the dashboard title is a set of filters letting you choose a namespace, a specific NIC if there is more than one installed, a specific server zone, a specific server (pod), or a specific NGINX virtual server.  This is helpful for troubleshooting by focusing on a specific problem area.  
 
@@ -117,12 +121,12 @@ The Environment Metrics panel contains good overview data.  Ingress Metrics and 
 There are two primary differences between the NGINX+ and Grafana dashboards:
 
 1. The Grafana dashboard lets you see historical data, similar to what you saw with Prometheus.
-2. The Grafana can act as a single pane of glass for multiple Ingress pods.  
+2. The Grafana dashboard can act as a single pane of glass for multiple Ingress pods.  
 
-Let's try out that second point.  Scale your Ingress deployment to three pods with the following command:
+Let's try out that second point.  Scale your Ingress deployment to six pods with the following command:
 
 ```bash
-kubectl scale deploy -n nginx-ingress nginx-ingress --replicas=3
+kubectl scale deploy -n nginx-ingress nginx-ingress --replicas=6
 ```
 
 Now navigate to the dashboard home screen by clicking on the dashboard icon on the left of the page:

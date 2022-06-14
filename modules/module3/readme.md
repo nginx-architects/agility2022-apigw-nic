@@ -53,7 +53,7 @@ Inspect the `module3/api-runtimes-vs-with-ratelimit.yaml` file. This file modifi
 Run the following command to update the existing `apis` VirtualServer object with the new changes
 
 ```bash
-    kubectl apply -f module3/api-runtimes-vs-with-ratelimit.yaml
+kubectl apply -f module3/api-runtimes-vs-with-ratelimit.yaml
 ```
 
 ![API VS apply](media/module3_api_vs_apply.png)
