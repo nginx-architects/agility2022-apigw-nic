@@ -1,0 +1,39 @@
+apiVersion: v1
+data:
+  oas-colors-v.01.yaml: "openapi: 3.0.1\ninfo:\n  title: colors\n  description: list
+    of colors\n  version: '0.1'\nservers:\n  - url: 'http://api.example.com/api/v1'\npaths:\n
+    \ /colors:\n    get:\n      description: List all colors\n      operationId: listColors\n
+    \     responses:\n        '200':\n          description: a list of colors with
+    their index\n          content:\n            application/json:\n              schema:\n
+    \               $ref: \"#/components/schemas/Colors\"\n              #examples:
+    {\"adjectives\": [{\"id\":1,\"name\":\"blue\"}]}\n      servers:\n        - url:
+    'http://api.example.com/api/v1'\n    post:\n      description: create a color\n
+    \     operationId: createColor\n      requestBody:\n        content:\n          application/json:\n
+    \           schema:\n              type: object\n              properties:\n                name:\n
+    \                 type: string\n                id:\n                  type: integer\n
+    \           examples:\n              '0':\n                value: '{\"name\":\"yellow\"}'\n
+    \             '1':\n                value: '{\"id\":4}'\n      responses:\n        '201':\n
+    \         description: color created\n          content:\n            application/json;
+    charset=utf-8:\n              schema:\n                type: string\n              examples:
+    {}\n      servers:\n        - url: 'http://api.example.com/api/v1'\n    delete:\n
+    \     description: delete a color\n      operationId: deleteColor\n      responses:\n
+    \       '404':\n          description: Auto generated using Swagger Inspector\n
+    \         content:\n            application/json; charset=utf-8:\n              schema:\n
+    \               type: string\n              examples: {}\n      servers:\n        -
+    url: 'http://api.example.com/api/v1'\n    servers:\n      - url: 'http://api.example.com/api/v1'\n
+    \ /colors/{id}:\n    get:\n      description: get a specific color\n      operationId:
+    showColorById\n      parameters:\n        - name: id\n          in: path\n          required:
+    true\n          description: id of the color to retrieve\n          schema:\n
+    \           type: integer\n      responses:\n        '200':\n          description:
+    Successful\n          content:\n            application/json; charset=utf-8:\n
+    \             schema:\n                $ref: \"#/components/schemas/Color\"\n
+    \             # examples: {\"adjectives\": [{\"id\":1,\"name\":\"blue\"}]}\n      servers:\n
+    \       - url: 'http://api.example.com/api/v1'\n        \ncomponents:\n  schemas:\n
+    \   Color:\n      required:\n        - id\n        - name\n      properties:\n
+    \       id:\n          type: integer\n          format: int64\n        name:\n
+    \         type: string\n  #      tag:\n  #        type: string\n    Colors:\n
+    \     type: array\n      items:\n        $ref: \"#/components/schemas/Color\""
+kind: ConfigMap
+metadata:
+  name: colors-oas-spec
+  namespace: spec

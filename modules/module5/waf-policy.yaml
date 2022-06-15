@@ -6,7 +6,7 @@ metadata:
 spec:
   waf:
    enable: true
-   apPolicy: "api/dataguard-alarm"
+   apPolicy: "api/colors-api-security-policy"
    securityLog:
       enable: true
       apLogConf: "api/logconf"
